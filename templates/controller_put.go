@@ -56,6 +56,7 @@ class Put extends GenericController
 }
 `
 
+//NewControllerPut returns new template for put controller
 func NewControllerPut(variables generators.RandomVariables) Template {
 	rawTemplate, err := template.New("controllerPut").Parse(ControllerPutTemplate)
 

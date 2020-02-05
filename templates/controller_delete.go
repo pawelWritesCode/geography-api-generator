@@ -35,7 +35,7 @@ class Delete extends GenericController
 }
 `
 
-//NewEntity returns new Template type with fulfilled fields for entity creation
+//NewControllerDelete returns new template for delete controller
 func NewControllerDelete(variables generators.RandomVariables) Template {
 	rawTemplate, err := template.New("controllerDelete").Parse(ControllerDeleteTemplate)
 

@@ -30,6 +30,7 @@ const ResourceTemplate = `AppBundle\Entity\{{.EntityFU}}:
             - updateTimestamps
 `
 
+//NewResource returns new template for resource
 func NewResource(variables generators.RandomVariables) Template {
 	rawTemplate, err := template.New("resource").Parse(ResourceTemplate)
 

@@ -31,6 +31,7 @@ class Delete
 }
 `
 
+//NewRestApiDelete returns new template for rest api delete service
 func NewRestApiDelete(variables generators.RandomVariables) Template {
 	rawTemplate, err := template.New("restApiDelete").Parse(RestApiDeleteTemplate)
 

@@ -52,6 +52,7 @@ class Post extends GenericController
 }
 `
 
+//NewControllerPost returns new template for post controller
 func NewControllerPost(variables generators.RandomVariables) Template {
 	rawTemplate, err := template.New("controllerPost").Parse(ControllerPostTemplate)
 

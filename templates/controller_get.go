@@ -42,7 +42,7 @@ class Get extends GenericController
 }
 `
 
-//NewControllerGet
+//NewControllerGet returns new template for get controller
 func NewControllerGet(variables generators.RandomVariables) Template {
 	rawTemplate, err := template.New("controllerGet").Parse(ControllerGetTemplate)
 

@@ -21,6 +21,7 @@ class {{.EntityFU}}Repository extends \Doctrine\ORM\EntityRepository
 }
 `
 
+//NewRepository returns new template for repository
 func NewRepository(variables generators.RandomVariables) Template {
 	rawTemplate, err := template.New("repository").Parse(RepositoryTemplate)
 

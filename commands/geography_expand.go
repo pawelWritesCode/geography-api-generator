@@ -38,6 +38,9 @@ func GeographyExpand(c *cli.Context) error {
 		templates.NewResource(randomVariables),
 		templates.NewRepository(randomVariables),
 		templates.NewRestApiDelete(randomVariables),
+		templates.NewRestApiGetList(randomVariables),
+		templates.NewRestApiPost(randomVariables),
+		templates.NewRestApiPut(randomVariables),
 	}
 	var wg sync.WaitGroup
 

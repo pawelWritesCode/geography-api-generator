@@ -44,6 +44,7 @@ class GetList extends GenericController
 }
 `
 
+//NewControllerGetList returns new template for get list controller
 func NewControllerGetList(variables generators.RandomVariables) Template {
 	rawTemplate, err := template.New("controllerGetList").Parse(ControllerGetListTemplate)
 
