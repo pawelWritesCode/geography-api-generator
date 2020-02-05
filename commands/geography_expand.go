@@ -6,7 +6,9 @@ import (
 	"generator/backend-go/generators"
 	"generator/backend-go/templates"
 	"github.com/urfave/cli/v2"
+	"log"
 	"os"
+	"sync"
 )
 
 //ErrInvalidDirectoryStructure occurs when there are missing some folders. Probably user is not in geography root
@@ -33,17 +35,27 @@ func GeographyExpand(c *cli.Context) error {
 		templates.NewControllerGetList(randomVariables),
 		templates.NewControllerPost(randomVariables),
 		templates.NewControllerPut(randomVariables),
+		templates.NewResource(randomVariables),
+		templates.NewRepository(randomVariables),
+		templates.NewRestApiDelete(randomVariables),
 	}
+	var wg sync.WaitGroup
 
 	for _, tpl := range allTemplates {
-		err := tpl.RenderAndEmplace()
+		wg.Add(1)
 
-		//TODO: Remove already created files, before returning error.
-		if err != nil {
-			return err
-		}
+		go func(tpl templates.Template) {
+			defer wg.Done()
+			err := tpl.RenderAndEmplace()
+			//TODO: Remove already created files, before returning error.
+			if err != nil {
+				log.Fatal(err)
+			}
+		}(tpl)
+
 	}
 
+	wg.Wait()
 	return nil
 }
 
