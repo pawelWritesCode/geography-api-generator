@@ -6,7 +6,7 @@ import (
 	"text/template"
 )
 
-const ENTITY_TEMPLATE = `<?php
+const EntityTemplate = `<?php
 
 namespace AppBundle\Entity;
 
@@ -136,7 +136,7 @@ class {{.EntityFU}}
 
 //NewEntity returns new Template type with fulfilled fields for entity creation
 func NewEntity(variables generators.RandomVariables) Template {
-	rawTemplate, err := template.New("entity").Parse(ENTITY_TEMPLATE)
+	rawTemplate, err := template.New("entity").Parse(EntityTemplate)
 
 	if err != nil {
 		log.Fatal(err)
@@ -144,7 +144,8 @@ func NewEntity(variables generators.RandomVariables) Template {
 
 	return Template{
 		Payload:   rawTemplate,
-		Directory: "./backend-php/src/AppBundle/Entity/",
+		Directory: EntityDirectory,
 		Variables: variables,
+		FileName:  variables.EntityFU() + ".php",
 	}
 }
