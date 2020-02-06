@@ -29,18 +29,23 @@ func GeographyExpand(c *cli.Context) error {
 	}
 
 	allTemplates := []templates.Template{
-		templates.NewEntity(randomVariables),
-		templates.NewControllerDelete(randomVariables),
-		templates.NewControllerGet(randomVariables),
-		templates.NewControllerGetList(randomVariables),
-		templates.NewControllerPost(randomVariables),
-		templates.NewControllerPut(randomVariables),
-		templates.NewResource(randomVariables),
-		templates.NewRepository(randomVariables),
-		templates.NewRestApiDelete(randomVariables),
-		templates.NewRestApiGetList(randomVariables),
-		templates.NewRestApiPost(randomVariables),
-		templates.NewRestApiPut(randomVariables),
+		//templates.NewEntity(randomVariables),
+		//templates.NewControllerDelete(randomVariables),
+		//templates.NewControllerGet(randomVariables),
+		//templates.NewControllerGetList(randomVariables),
+		//templates.NewControllerPost(randomVariables),
+		//templates.NewControllerPut(randomVariables),
+		//templates.NewResource(randomVariables),
+		//templates.NewRepository(randomVariables),
+		//templates.NewRestApiDelete(randomVariables),
+		//templates.NewRestApiGetList(randomVariables),
+		//templates.NewRestApiPost(randomVariables),
+		//templates.NewRestApiPut(randomVariables),
+		templates.NewBehatCreate(randomVariables),
+		templates.NewBehatGetId(randomVariables),
+		templates.NewBehatDelete(randomVariables),
+		templates.NewBehatGetList(randomVariables),
+		templates.NewBehatPut(randomVariables),
 	}
 	var wg sync.WaitGroup
 
