@@ -1,7 +1,9 @@
 package templates
 
 import (
-	"generator/backend-go/generators"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"log"
 	"text/template"
 )
@@ -57,21 +59,13 @@ class Put extends GenericController
 `
 
 //NewControllerPut returns new template for put controller
-func NewControllerPut(variables generators.RandomVariables) Template {
+func NewControllerPut(variables generator.RandomVariables) Template {
 	rawTemplate, err := template.New("controllerPut").Parse(ControllerPutTemplate)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resource := Resource{
-		Directory: ControllerDirectory + variables.EntityFU() + "/",
-		FileName:  "Put.php",
-	}
-
-	return Template{
-		Payload:   rawTemplate,
-		Variables: variables,
-		Resource:  resource,
-	}
+	return New(resource.New(geography.ControllerDir+variables.EntityFU()+"/", "Put.php"),
+		rawTemplate, variables)
 }

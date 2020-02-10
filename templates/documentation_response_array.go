@@ -1,7 +1,9 @@
 package templates
 
 import (
-	"generator/backend-go/generators"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"log"
 	"text/template"
 )
@@ -39,21 +41,13 @@ const DocumentationResponseArrayTemplate = `{
 `
 
 //NewDocumentationResponseArray returns new template for documentation response array
-func NewDocumentationResponseArray(variables generators.RandomVariables) Template {
+func NewDocumentationResponseArray(variables generator.RandomVariables) Template {
 	rawTemplate, err := template.New("documentation_response_array").Parse(DocumentationResponseArrayTemplate)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resource := Resource{
-		Directory: DocumentationDirectory + "response/",
-		FileName:  string(variables.Entity) + "_array.json",
-	}
-
-	return Template{
-		Payload:   rawTemplate,
-		Variables: variables,
-		Resource:  resource,
-	}
+	return New(resource.New(geography.DocumentationDir+"response/", string(variables.Entity)+"_array.json"),
+		rawTemplate, variables)
 }

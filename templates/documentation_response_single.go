@@ -1,7 +1,9 @@
 package templates
 
 import (
-	"generator/backend-go/generators"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"log"
 	"text/template"
 )
@@ -35,21 +37,13 @@ const DocumentationResponseSingleTemplate = `{
 `
 
 //NewDocumentationResponseSingle returns new template for documentation response single
-func NewDocumentationResponseSingle(variables generators.RandomVariables) Template {
+func NewDocumentationResponseSingle(variables generator.RandomVariables) Template {
 	rawTemplate, err := template.New("documentation_response_single").Parse(DocumentationResponseSingleTemplate)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resource := Resource{
-		Directory: DocumentationDirectory + "response/",
-		FileName:  string(variables.Entity) + ".json",
-	}
-
-	return Template{
-		Payload:   rawTemplate,
-		Variables: variables,
-		Resource:  resource,
-	}
+	return New(resource.New(geography.DocumentationDir+"response/", string(variables.Entity)+".json"),
+		rawTemplate, variables)
 }

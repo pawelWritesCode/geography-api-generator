@@ -1,7 +1,9 @@
 package templates
 
 import (
-	"generator/backend-go/generators"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"log"
 	"text/template"
 )
@@ -31,21 +33,13 @@ class GetList
 `
 
 //NewRestApiGetList returns new template for rest api get list service
-func NewRestApiGetList(variables generators.RandomVariables) Template {
+func NewRestApiGetList(variables generator.RandomVariables) Template {
 	rawTemplate, err := template.New("restApiGetList").Parse(RestApiGetListTemplate)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resource := Resource{
-		Directory: RestApiDirectory + variables.EntityFU() + "/",
-		FileName:  "GetList.php",
-	}
-
-	return Template{
-		Payload:   rawTemplate,
-		Variables: variables,
-		Resource:  resource,
-	}
+	return New(resource.New(geography.RestApiDir+variables.EntityFU()+"/", "GetList.php"),
+		rawTemplate, variables)
 }

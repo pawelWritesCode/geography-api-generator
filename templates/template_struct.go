@@ -2,23 +2,38 @@ package templates
 
 import (
 	"bytes"
-	"generator/backend-go/generators"
-	"io/ioutil"
+	"errors"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/resource"
 	"os"
-	"path"
 	"text/template"
 )
 
+var ErrPayload = errors.New("template playload is not set")
+
 //Template struct holds information about template
 type Template struct {
-	Resource
+	resource.Resource
 	Payload   *template.Template
-	Variables generators.RandomVariables
+	Variables generator.RandomVariables
+}
+
+func New(res resource.Resource, tpl *template.Template, rnd generator.RandomVariables) Template {
+	return Template{
+		Resource:  res,
+		Payload:   tpl,
+		Variables: rnd,
+	}
 }
 
 //Render returns rendered template as string
 func (t Template) Render() (string, error) {
 	var tpl bytes.Buffer
+
+	if t.Payload == nil {
+		return "", ErrPayload
+	}
+
 	err := t.Payload.Execute(&tpl, t.Variables)
 
 	return tpl.String(), err
@@ -41,9 +56,7 @@ func (t Template) RenderAndEmplace() error {
 		}
 	}
 
-	err = ioutil.WriteFile(path.Clean(t.Directory+t.FileName),
-		[]byte(renderedTemplate),
-		0741)
+	_, err = t.Write([]byte(renderedTemplate))
 
 	return err
 }

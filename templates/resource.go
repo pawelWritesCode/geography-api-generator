@@ -1,7 +1,9 @@
 package templates
 
 import (
-	"generator/backend-go/generators"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"log"
 	"text/template"
 )
@@ -31,21 +33,12 @@ const ResourceTemplate = `AppBundle\Entity\{{.EntityFU}}:
 `
 
 //NewResource returns new template for resource
-func NewResource(variables generators.RandomVariables) Template {
+func NewResource(variables generator.RandomVariables) Template {
 	rawTemplate, err := template.New("resource").Parse(ResourceTemplate)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resource := Resource{
-		Directory: ResourcesDirectory,
-		FileName:  variables.EntityFU() + ".orm.yml",
-	}
-
-	return Template{
-		Payload:   rawTemplate,
-		Variables: variables,
-		Resource:  resource,
-	}
+	return New(resource.New(geography.ResourcesDir, variables.EntityFU()+".orm.yml"), rawTemplate, variables)
 }

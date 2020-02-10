@@ -1,7 +1,9 @@
 package templates
 
 import (
-	"generator/backend-go/generators"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"log"
 	"text/template"
 )
@@ -53,21 +55,13 @@ class Post extends GenericController
 `
 
 //NewControllerPost returns new template for post controller
-func NewControllerPost(variables generators.RandomVariables) Template {
+func NewControllerPost(variables generator.RandomVariables) Template {
 	rawTemplate, err := template.New("controllerPost").Parse(ControllerPostTemplate)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resource := Resource{
-		Directory: ControllerDirectory + variables.EntityFU() + "/",
-		FileName:  "Post.php",
-	}
-
-	return Template{
-		Payload:   rawTemplate,
-		Variables: variables,
-		Resource:  resource,
-	}
+	return New(resource.New(geography.ControllerDir+variables.EntityFU()+"/", "Post.php"),
+		rawTemplate, variables)
 }

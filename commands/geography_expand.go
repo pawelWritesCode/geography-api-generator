@@ -3,8 +3,9 @@ package commands
 import (
 	"errors"
 	"fmt"
-	"generator/backend-go/generators"
 	"generator/backend-go/templates"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
 	"github.com/urfave/cli/v2"
 	"log"
 	"os"
@@ -22,11 +23,11 @@ func GeographyExpand(c *cli.Context) error {
 		return fmt.Errorf("%v, change directory to geography root directory", err)
 	}
 
-	var entity generators.Entity
-	var property generators.Property
-	randomVariables, err := generators.RandomTemplateVariables(entity, property, 10)
+	var entity generator.Entity
+	var property generator.Property
+	randomVariables, err := generator.RandomTemplateVariables(entity, property, 10)
 
-	if errors.Is(err, generators.ErrExpand) {
+	if errors.Is(err, generator.ErrExpand) {
 		return fmt.Errorf("%v, project cannot expand anymore", err)
 	}
 
@@ -56,56 +57,57 @@ func GeographyExpand(c *cli.Context) error {
 
 	for _, tpl := range allTemplates {
 		wg.Add(1)
-
-		go func(tpl templates.Template) {
-			defer wg.Done()
-			err := tpl.RenderAndEmplace()
-
-			if err != nil {
-				log.Fatal(err)
-			}
-		}(tpl)
-
+		go renderAndEmplace(tpl, wg)
 	}
 
 	wg.Wait()
 	return nil
 }
 
+//renderAndEmplace renders template and emplace it.
+func renderAndEmplace(tpl templates.Template, wg sync.WaitGroup) {
+	defer wg.Done()
+	err := tpl.RenderAndEmplace()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 //checkDirectoryStructure checks if user is in geography root folder
 func checkDirectoryStructure() error {
 
-	_, err := os.Stat(templates.EntityDirectory)
+	_, err := os.Stat(geography.EntityDir)
 	if os.IsNotExist(err) {
 		return ErrInvalidDirectoryStructure
 	}
 
-	_, err = os.Stat(templates.ControllerDirectory)
+	_, err = os.Stat(geography.ControllerDir)
 	if os.IsNotExist(err) {
 		return ErrInvalidDirectoryStructure
 	}
 
-	_, err = os.Stat(templates.RepositoryDirectory)
+	_, err = os.Stat(geography.RepositoryDir)
 	if os.IsNotExist(err) {
 		return ErrInvalidDirectoryStructure
 	}
 
-	_, err = os.Stat(templates.ResourcesDirectory)
+	_, err = os.Stat(geography.ResourcesDir)
 	if os.IsNotExist(err) {
 		return ErrInvalidDirectoryStructure
 	}
 
-	_, err = os.Stat(templates.RestApiDirectory)
+	_, err = os.Stat(geography.RestApiDir)
 	if os.IsNotExist(err) {
 		return ErrInvalidDirectoryStructure
 	}
 
-	_, err = os.Stat(templates.BehatDirectory)
+	_, err = os.Stat(geography.BehatDir)
 	if os.IsNotExist(err) {
 		return ErrInvalidDirectoryStructure
 	}
 
-	_, err = os.Stat(templates.DocumentationDirectory)
+	_, err = os.Stat(geography.DocumentationDir)
 	if os.IsNotExist(err) {
 		return ErrInvalidDirectoryStructure
 	}

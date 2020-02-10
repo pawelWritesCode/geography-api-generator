@@ -1,7 +1,9 @@
 package templates
 
 import (
-	"generator/backend-go/generators"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"log"
 	"text/template"
 )
@@ -36,21 +38,13 @@ class Put
 `
 
 //NewRestApiPut returns new template for rest api put service
-func NewRestApiPut(variables generators.RandomVariables) Template {
+func NewRestApiPut(variables generator.RandomVariables) Template {
 	rawTemplate, err := template.New("restApiPut").Parse(RestApiPutTemplate)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resource := Resource{
-		Directory: RestApiDirectory + variables.EntityFU() + "/",
-		FileName:  "Put.php",
-	}
-
-	return Template{
-		Payload:   rawTemplate,
-		Variables: variables,
-		Resource:  resource,
-	}
+	return New(resource.New(geography.RestApiDir+variables.EntityFU()+"/", "Put.php"),
+		rawTemplate, variables)
 }

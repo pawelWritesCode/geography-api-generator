@@ -1,7 +1,9 @@
 package templates
 
 import (
-	"generator/backend-go/generators"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"log"
 	"text/template"
 )
@@ -40,21 +42,13 @@ const BehatGetIdTemplate = `Feature: Get {{.Entity}} record
     And the JSON node "root.{{.Property}}" should be equal to "4444"`
 
 //NewResource returns new template for resource
-func NewBehatGetId(variables generators.RandomVariables) Template {
+func NewBehatGetId(variables generator.RandomVariables) Template {
 	rawTemplate, err := template.New("behat_get_id").Parse(BehatGetIdTemplate)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resource := Resource{
-		Directory: BehatDirectory + string(variables.Entity) + "/crud/",
-		FileName:  "get_id.feature",
-	}
-
-	return Template{
-		Payload:   rawTemplate,
-		Variables: variables,
-		Resource:  resource,
-	}
+	return New(resource.New(geography.BehatDir+string(variables.Entity)+"/crud/", "get_id.feature"),
+		rawTemplate, variables)
 }

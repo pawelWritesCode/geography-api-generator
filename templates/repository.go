@@ -1,7 +1,9 @@
 package templates
 
 import (
-	"generator/backend-go/generators"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"log"
 	"text/template"
 )
@@ -22,21 +24,12 @@ class {{.EntityFU}}Repository extends \Doctrine\ORM\EntityRepository
 `
 
 //NewRepository returns new template for repository
-func NewRepository(variables generators.RandomVariables) Template {
+func NewRepository(variables generator.RandomVariables) Template {
 	rawTemplate, err := template.New("repository").Parse(RepositoryTemplate)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resource := Resource{
-		Directory: RepositoryDirectory,
-		FileName:  variables.EntityFU() + "Repository.php",
-	}
-
-	return Template{
-		Payload:   rawTemplate,
-		Variables: variables,
-		Resource:  resource,
-	}
+	return New(resource.New(geography.RepositoryDir, variables.EntityFU()+"Repository.php"), rawTemplate, variables)
 }

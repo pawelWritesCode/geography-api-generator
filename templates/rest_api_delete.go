@@ -1,7 +1,9 @@
 package templates
 
 import (
-	"generator/backend-go/generators"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"log"
 	"text/template"
 )
@@ -32,21 +34,13 @@ class Delete
 `
 
 //NewRestApiDelete returns new template for rest api delete service
-func NewRestApiDelete(variables generators.RandomVariables) Template {
+func NewRestApiDelete(variables generator.RandomVariables) Template {
 	rawTemplate, err := template.New("restApiDelete").Parse(RestApiDeleteTemplate)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resource := Resource{
-		Directory: RestApiDirectory + variables.EntityFU() + "/",
-		FileName:  "Delete.php",
-	}
-
-	return Template{
-		Payload:   rawTemplate,
-		Variables: variables,
-		Resource:  resource,
-	}
+	return New(resource.New(geography.RestApiDir+variables.EntityFU()+"/", "Delete.php"),
+		rawTemplate, variables)
 }

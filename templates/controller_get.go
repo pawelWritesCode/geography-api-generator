@@ -1,7 +1,9 @@
 package templates
 
 import (
-	"generator/backend-go/generators"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"log"
 	"text/template"
 )
@@ -43,21 +45,13 @@ class Get extends GenericController
 `
 
 //NewControllerGet returns new template for get controller
-func NewControllerGet(variables generators.RandomVariables) Template {
+func NewControllerGet(variables generator.RandomVariables) Template {
 	rawTemplate, err := template.New("controllerGet").Parse(ControllerGetTemplate)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resource := Resource{
-		Directory: ControllerDirectory + variables.EntityFU() + "/",
-		FileName:  "Get.php",
-	}
-
-	return Template{
-		Payload:   rawTemplate,
-		Variables: variables,
-		Resource:  resource,
-	}
+	return New(resource.New(geography.ControllerDir+variables.EntityFU()+"/", "Get.php"),
+		rawTemplate, variables)
 }

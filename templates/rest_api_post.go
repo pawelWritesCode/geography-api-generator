@@ -1,7 +1,9 @@
 package templates
 
 import (
-	"generator/backend-go/generators"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"log"
 	"text/template"
 )
@@ -42,21 +44,13 @@ class Post
 `
 
 //NewRestApiPost returns new template for rest api post service
-func NewRestApiPost(variables generators.RandomVariables) Template {
+func NewRestApiPost(variables generator.RandomVariables) Template {
 	rawTemplate, err := template.New("restApiPost").Parse(RestApiPostTemplate)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resource := Resource{
-		Directory: RestApiDirectory + variables.EntityFU() + "/",
-		FileName:  "Post.php",
-	}
-
-	return Template{
-		Payload:   rawTemplate,
-		Variables: variables,
-		Resource:  resource,
-	}
+	return New(resource.New(geography.RestApiDir+variables.EntityFU()+"/",
+		"Post.php"), rawTemplate, variables)
 }

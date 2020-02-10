@@ -1,7 +1,9 @@
 package templates
 
 import (
-	"generator/backend-go/generators"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"log"
 	"text/template"
 )
@@ -135,21 +137,12 @@ class {{.EntityFU}}
 `
 
 //NewEntity returns new Template type with fulfilled fields for entity creation
-func NewEntity(variables generators.RandomVariables) Template {
+func NewEntity(variables generator.RandomVariables) Template {
 	rawTemplate, err := template.New("entity").Parse(EntityTemplate)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resource := Resource{
-		Directory: EntityDirectory,
-		FileName:  variables.EntityFU() + ".php",
-	}
-
-	return Template{
-		Payload:   rawTemplate,
-		Variables: variables,
-		Resource:  resource,
-	}
+	return New(resource.New(geography.EntityDir, variables.EntityFU()+".php"), rawTemplate, variables)
 }

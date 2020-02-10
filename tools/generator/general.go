@@ -1,8 +1,9 @@
-package generators
+package generator
 
 import (
 	"errors"
-	"generator/backend-go/templates"
+	"generator/backend-go/tools/geography"
+	resource3 "generator/backend-go/tools/resource"
 )
 
 //ErrExpand occurs when there is no more entities left to use for expanding project
@@ -15,10 +16,10 @@ func RandomTemplateVariables(eGen RandomEntity, pGen RandomProperty, retries int
 		return RandomVariables{}, ErrExpand
 	}
 
-	entity := eGen.Random()
+	entity := Random()
 
-	resource := templates.Resource{
-		Directory: templates.EntityDirectory,
+	resource := resource3.Resource{
+		Directory: geography.EntityDir,
 		FileName:  string(entity) + ".php",
 	}
 
@@ -26,7 +27,7 @@ func RandomTemplateVariables(eGen RandomEntity, pGen RandomProperty, retries int
 		return RandomTemplateVariables(eGen, pGen, retries-1)
 	}
 
-	property := pGen.Random()
+	property := Random()
 
 	return RandomVariables{
 		Entity:   entity,

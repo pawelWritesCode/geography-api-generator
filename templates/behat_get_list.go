@@ -1,7 +1,9 @@
 package templates
 
 import (
-	"generator/backend-go/generators"
+	"generator/backend-go/tools/generator"
+	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"log"
 	"text/template"
 )
@@ -43,21 +45,13 @@ const BehatGetListTemplate = `Feature: Get list {{.Entity}} record
     And list element with the id "{{"{{"}}{{.Entity}}Id{{"}}"}}" has field "name" with value "{{"{{"}}name{{"}}"}}"`
 
 //NewResource returns new template for resource
-func NewBehatGetList(variables generators.RandomVariables) Template {
+func NewBehatGetList(variables generator.RandomVariables) Template {
 	rawTemplate, err := template.New("behat_get_list").Parse(BehatGetListTemplate)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resource := Resource{
-		Directory: BehatDirectory + string(variables.Entity) + "/crud/",
-		FileName:  "get_list.feature",
-	}
-
-	return Template{
-		Payload:   rawTemplate,
-		Variables: variables,
-		Resource:  resource,
-	}
+	return New(resource.New(geography.BehatDir+string(variables.Entity)+"/crud/", "get_list.feature"),
+		rawTemplate, variables)
 }
