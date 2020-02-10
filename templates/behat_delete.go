@@ -52,10 +52,14 @@ func NewBehatDelete(variables generators.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
+	resource := Resource{
+		Directory: BehatDirectory + string(variables.Entity) + "/crud/",
+		FileName:  "delete.feature",
+	}
+
 	return Template{
 		Payload:   rawTemplate,
-		Directory: BehatDirectory + string(variables.Entity) + "/crud/",
 		Variables: variables,
-		FileName:  "delete.feature",
+		Resource:  resource,
 	}
 }

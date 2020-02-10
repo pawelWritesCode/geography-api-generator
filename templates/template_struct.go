@@ -11,10 +11,9 @@ import (
 
 //Template struct holds information about template
 type Template struct {
+	Resource
 	Payload   *template.Template
-	Directory string
 	Variables generators.RandomVariables
-	FileName  string
 }
 
 //Render returns rendered template as string
@@ -33,8 +32,7 @@ func (t Template) RenderAndEmplace() error {
 		return err
 	}
 
-	_, err = os.Stat(t.Directory)
-	if os.IsNotExist(err) {
+	if !t.DirExist() {
 		fileMode := os.FileMode(0741)
 		err = os.MkdirAll(t.Directory, fileMode)
 

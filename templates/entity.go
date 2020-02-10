@@ -142,10 +142,14 @@ func NewEntity(variables generators.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
+	resource := Resource{
+		Directory: EntityDirectory,
+		FileName:  variables.EntityFU() + ".php",
+	}
+
 	return Template{
 		Payload:   rawTemplate,
-		Directory: EntityDirectory,
 		Variables: variables,
-		FileName:  variables.EntityFU() + ".php",
+		Resource:  resource,
 	}
 }

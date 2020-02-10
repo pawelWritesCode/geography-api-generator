@@ -2,30 +2,34 @@ package generators
 
 import (
 	"errors"
-	"os"
+	"generator/backend-go/templates"
 )
 
-//ErrExpand occurs when there is no more not used entities
+//ErrExpand occurs when there is no more entities left to use for expanding project
 var ErrExpand = errors.New("every entity has been used already")
 
 //RandomTemplateVariables returns RandomVariables type with randomly picked fields.
-func RandomTemplateVariables(retries int) (RandomVariables, error)  {
+//error: ErrExpand
+func RandomTemplateVariables(eGen RandomEntity, pGen RandomProperty, retries int) (RandomVariables, error) {
 	if retries == 0 {
 		return RandomVariables{}, ErrExpand
 	}
 
-	entity := RandomEntity()
+	entity := eGen.Random()
 
-	//Checking if entity already exists
-	_ , err := os.Stat("./backend-php/src/AppBundle/Entity/" + string(entity) + ".php")
-	if !os.IsNotExist(err) {
-		return RandomTemplateVariables(retries - 1)
+	resource := templates.Resource{
+		Directory: templates.EntityDirectory,
+		FileName:  string(entity) + ".php",
 	}
 
-	property := RandomProperty()
+	if resource.Exist() {
+		return RandomTemplateVariables(eGen, pGen, retries-1)
+	}
+
+	property := pGen.Random()
 
 	return RandomVariables{
-		Entity:    entity,
+		Entity:   entity,
 		Property: property,
 	}, nil
 }

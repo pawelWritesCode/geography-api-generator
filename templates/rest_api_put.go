@@ -43,10 +43,14 @@ func NewRestApiPut(variables generators.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
+	resource := Resource{
+		Directory: RestApiDirectory + variables.EntityFU() + "/",
+		FileName:  "Put.php",
+	}
+
 	return Template{
 		Payload:   rawTemplate,
-		Directory: RestApiDirectory + variables.EntityFU() + "/",
 		Variables: variables,
-		FileName:  "Put.php",
+		Resource:  resource,
 	}
 }

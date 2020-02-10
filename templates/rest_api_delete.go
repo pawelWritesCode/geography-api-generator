@@ -39,10 +39,14 @@ func NewRestApiDelete(variables generators.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
+	resource := Resource{
+		Directory: RestApiDirectory + variables.EntityFU() + "/",
+		FileName:  "Delete.php",
+	}
+
 	return Template{
 		Payload:   rawTemplate,
-		Directory: RestApiDirectory + variables.EntityFU() + "/",
 		Variables: variables,
-		FileName:  "Delete.php",
+		Resource:  resource,
 	}
 }

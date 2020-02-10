@@ -29,10 +29,14 @@ func NewRepository(variables generators.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
+	resource := Resource{
+		Directory: RepositoryDirectory,
+		FileName:  variables.EntityFU() + "Repository.php",
+	}
+
 	return Template{
 		Payload:   rawTemplate,
-		Directory: RepositoryDirectory,
 		Variables: variables,
-		FileName:  variables.EntityFU() + "Repository.php",
+		Resource:  resource,
 	}
 }

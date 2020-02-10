@@ -36,10 +36,14 @@ func NewBehatCreate(variables generators.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
+	resource := Resource{
+		Directory: BehatDirectory + string(variables.Entity) + "/crud/",
+		FileName:  "create.feature",
+	}
+
 	return Template{
 		Payload:   rawTemplate,
-		Directory: BehatDirectory + string(variables.Entity) + "/crud/",
 		Variables: variables,
-		FileName:  "create.feature",
+		Resource:  resource,
 	}
 }

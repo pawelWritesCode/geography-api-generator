@@ -43,10 +43,14 @@ func NewControllerDelete(variables generators.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
+	resource := Resource{
+		Directory: ControllerDirectory + variables.EntityFU() + "/",
+		FileName:  "Delete.php",
+	}
+
 	return Template{
 		Payload:   rawTemplate,
-		Directory: ControllerDirectory + variables.EntityFU() + "/",
 		Variables: variables,
-		FileName:  "Delete.php",
+		Resource:  resource,
 	}
 }

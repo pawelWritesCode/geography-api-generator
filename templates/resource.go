@@ -38,10 +38,14 @@ func NewResource(variables generators.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
+	resource := Resource{
+		Directory: ResourcesDirectory,
+		FileName:  variables.EntityFU() + ".orm.yml",
+	}
+
 	return Template{
 		Payload:   rawTemplate,
-		Directory: ResourcesDirectory,
 		Variables: variables,
-		FileName:  variables.EntityFU() + ".orm.yml",
+		Resource:  resource,
 	}
 }

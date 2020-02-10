@@ -7,8 +7,12 @@ import (
 
 type Entity string
 
+type RandomEntity interface {
+	Random() Entity
+}
+
 //RandomEntity returns randomly picked entity
-func RandomEntity() Entity  {
+func (e Entity) Random() Entity {
 	entities := []Entity{
 		"tree",
 		"bush",
@@ -36,7 +40,7 @@ func RandomEntity() Entity  {
 	rand.Seed(time.Now().UnixNano())
 	min := 0
 	max := len(entities) - 1
-	randIndex := rand.Intn(max - min + 1) + min
+	randIndex := rand.Intn(max-min+1) + min
 
 	return entities[randIndex]
 }

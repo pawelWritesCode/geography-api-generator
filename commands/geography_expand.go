@@ -22,30 +22,35 @@ func GeographyExpand(c *cli.Context) error {
 		return fmt.Errorf("%v, change directory to geography root directory", err)
 	}
 
-	randomVariables, err := generators.RandomTemplateVariables(10)
+	var entity generators.Entity
+	var property generators.Property
+	randomVariables, err := generators.RandomTemplateVariables(entity, property, 10)
 
 	if errors.Is(err, generators.ErrExpand) {
 		return fmt.Errorf("%v, project cannot expand anymore", err)
 	}
 
 	allTemplates := []templates.Template{
-		//templates.NewEntity(randomVariables),
-		//templates.NewControllerDelete(randomVariables),
-		//templates.NewControllerGet(randomVariables),
-		//templates.NewControllerGetList(randomVariables),
-		//templates.NewControllerPost(randomVariables),
-		//templates.NewControllerPut(randomVariables),
-		//templates.NewResource(randomVariables),
-		//templates.NewRepository(randomVariables),
-		//templates.NewRestApiDelete(randomVariables),
-		//templates.NewRestApiGetList(randomVariables),
-		//templates.NewRestApiPost(randomVariables),
-		//templates.NewRestApiPut(randomVariables),
+		templates.NewEntity(randomVariables),
+		templates.NewControllerDelete(randomVariables),
+		templates.NewControllerGet(randomVariables),
+		templates.NewControllerGetList(randomVariables),
+		templates.NewControllerPost(randomVariables),
+		templates.NewControllerPut(randomVariables),
+		templates.NewResource(randomVariables),
+		templates.NewRepository(randomVariables),
+		templates.NewRestApiDelete(randomVariables),
+		templates.NewRestApiGetList(randomVariables),
+		templates.NewRestApiPost(randomVariables),
+		templates.NewRestApiPut(randomVariables),
 		templates.NewBehatCreate(randomVariables),
 		templates.NewBehatGetId(randomVariables),
 		templates.NewBehatDelete(randomVariables),
 		templates.NewBehatGetList(randomVariables),
 		templates.NewBehatPut(randomVariables),
+		templates.NewDocumentationRequest(randomVariables),
+		templates.NewDocumentationResponseSingle(randomVariables),
+		templates.NewDocumentationResponseArray(randomVariables),
 	}
 	var wg sync.WaitGroup
 
@@ -55,7 +60,7 @@ func GeographyExpand(c *cli.Context) error {
 		go func(tpl templates.Template) {
 			defer wg.Done()
 			err := tpl.RenderAndEmplace()
-			//TODO: Remove already created files, before returning error.
+
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -69,12 +74,38 @@ func GeographyExpand(c *cli.Context) error {
 
 //checkDirectoryStructure checks if user is in geography root folder
 func checkDirectoryStructure() error {
-	_, err := os.Stat("./backend-php/src/AppBundle/Entity/")
+
+	_, err := os.Stat(templates.EntityDirectory)
 	if os.IsNotExist(err) {
 		return ErrInvalidDirectoryStructure
 	}
 
-	_, err = os.Stat("./backend-php/src/AppBundle/Controller/")
+	_, err = os.Stat(templates.ControllerDirectory)
+	if os.IsNotExist(err) {
+		return ErrInvalidDirectoryStructure
+	}
+
+	_, err = os.Stat(templates.RepositoryDirectory)
+	if os.IsNotExist(err) {
+		return ErrInvalidDirectoryStructure
+	}
+
+	_, err = os.Stat(templates.ResourcesDirectory)
+	if os.IsNotExist(err) {
+		return ErrInvalidDirectoryStructure
+	}
+
+	_, err = os.Stat(templates.RestApiDirectory)
+	if os.IsNotExist(err) {
+		return ErrInvalidDirectoryStructure
+	}
+
+	_, err = os.Stat(templates.BehatDirectory)
+	if os.IsNotExist(err) {
+		return ErrInvalidDirectoryStructure
+	}
+
+	_, err = os.Stat(templates.DocumentationDirectory)
 	if os.IsNotExist(err) {
 		return ErrInvalidDirectoryStructure
 	}

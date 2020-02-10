@@ -47,10 +47,14 @@ func NewBehatGetId(variables generators.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
+	resource := Resource{
+		Directory: BehatDirectory + string(variables.Entity) + "/crud/",
+		FileName:  "get_id.feature",
+	}
+
 	return Template{
 		Payload:   rawTemplate,
-		Directory: BehatDirectory + string(variables.Entity) + "/crud/",
 		Variables: variables,
-		FileName:  "get_id.feature",
+		Resource:  resource,
 	}
 }

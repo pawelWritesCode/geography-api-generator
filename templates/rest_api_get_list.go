@@ -38,10 +38,14 @@ func NewRestApiGetList(variables generators.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
+	resource := Resource{
+		Directory: RestApiDirectory + variables.EntityFU() + "/",
+		FileName:  "GetList.php",
+	}
+
 	return Template{
 		Payload:   rawTemplate,
-		Directory: RestApiDirectory + variables.EntityFU() + "/",
 		Variables: variables,
-		FileName:  "GetList.php",
+		Resource:  resource,
 	}
 }

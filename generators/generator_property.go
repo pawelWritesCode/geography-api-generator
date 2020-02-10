@@ -8,8 +8,12 @@ import (
 //Property represents property name
 type Property string
 
+type RandomProperty interface {
+	Random() Property
+}
+
 //RandomProperty returns randomly picked property
-func RandomProperty() Property  {
+func (p Property) Random() Property {
 	properties := []Property{
 		"height",
 		"width",
@@ -23,7 +27,7 @@ func RandomProperty() Property  {
 	rand.Seed(time.Now().UnixNano())
 	min := 0
 	max := len(properties) - 1
-	randIndex := rand.Intn(max - min + 1) + min
+	randIndex := rand.Intn(max-min+1) + min
 
 	return properties[randIndex]
 }

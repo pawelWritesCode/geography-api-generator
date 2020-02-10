@@ -64,10 +64,14 @@ func NewControllerPut(variables generators.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
+	resource := Resource{
+		Directory: ControllerDirectory + variables.EntityFU() + "/",
+		FileName:  "Put.php",
+	}
+
 	return Template{
 		Payload:   rawTemplate,
-		Directory: ControllerDirectory + variables.EntityFU() + "/",
 		Variables: variables,
-		FileName:  "Put.php",
+		Resource:  resource,
 	}
 }
