@@ -12,6 +12,8 @@ import (
 	"sync"
 )
 
+var wg sync.WaitGroup
+
 //ErrInvalidDirectoryStructure occurs when there are missing some folders. Probably user is not in geography root
 var ErrInvalidDirectoryStructure = errors.New("invalid directory structure")
 
@@ -53,11 +55,10 @@ func GeographyExpand(c *cli.Context) error {
 		templates.NewDocumentationResponseSingle(randomVariables),
 		templates.NewDocumentationResponseArray(randomVariables),
 	}
-	var wg sync.WaitGroup
 
 	for _, tpl := range allTemplates {
 		wg.Add(1)
-		go renderAndEmplace(tpl, wg)
+		go renderAndEmplace(tpl)
 	}
 
 	wg.Wait()
@@ -65,7 +66,7 @@ func GeographyExpand(c *cli.Context) error {
 }
 
 //renderAndEmplace renders template and emplace it.
-func renderAndEmplace(tpl templates.Template, wg sync.WaitGroup) {
+func renderAndEmplace(tpl templates.Template) {
 	defer wg.Done()
 	err := tpl.RenderAndEmplace()
 

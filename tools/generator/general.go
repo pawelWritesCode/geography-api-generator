@@ -16,7 +16,7 @@ func RandomTemplateVariables(eGen RandomEntity, pGen RandomProperty, retries int
 		return RandomVariables{}, ErrExpand
 	}
 
-	entity := Random()
+	entity := eGen.Random()
 
 	resource := resource3.Resource{
 		Directory: geography.EntityDir,
@@ -27,7 +27,7 @@ func RandomTemplateVariables(eGen RandomEntity, pGen RandomProperty, retries int
 		return RandomTemplateVariables(eGen, pGen, retries-1)
 	}
 
-	property := Random()
+	property := pGen.Random()
 
 	return RandomVariables{
 		Entity:   entity,
