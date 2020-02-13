@@ -1,3 +1,4 @@
+//Package geography implements information specific to geography project
 package geography
 
 //======================================================================

@@ -1,3 +1,4 @@
+// Package commands contains generator commands
 package commands
 
 import (

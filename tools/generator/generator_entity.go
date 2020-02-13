@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+//Entity is representation of symfony framework entity
 type Entity string
 
 type RandomEntity interface {

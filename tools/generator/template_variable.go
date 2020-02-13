@@ -2,6 +2,7 @@ package generator
 
 import "strings"
 
+//RandomVariables represents all variables required for rendering any available template
 type RandomVariables struct {
 	Entity   Entity
 	Property Property
