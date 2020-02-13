@@ -7,14 +7,13 @@ import (
 	"os"
 )
 
-
 func main() {
 	app := &cli.App{
 		Commands: []*cli.Command{
 			{
-				Name:    "geography:expand",
-				Usage:   "expand project by one entity",
-				Action:  commands.GeographyExpand,
+				Name:   "geography:expand",
+				Usage:  "expand project by one entity",
+				Action: commands.GeographyExpand,
 			},
 		},
 	}
@@ -24,5 +23,3 @@ func main() {
 		log.Fatal(err)
 	}
 }
-
-

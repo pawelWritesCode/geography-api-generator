@@ -18,6 +18,7 @@ type Template struct {
 	Variables generator.RandomVariables
 }
 
+//New returns new Template
 func New(res resource.Resource, tpl *template.Template, rnd generator.RandomVariables) Template {
 	return Template{
 		Resource:  res,
@@ -27,7 +28,7 @@ func New(res resource.Resource, tpl *template.Template, rnd generator.RandomVari
 }
 
 //Render returns rendered template as string
-func (t Template) Render() (string, error) {
+func (t Template) render() (string, error) {
 	var tpl bytes.Buffer
 
 	if t.Payload == nil {
@@ -39,9 +40,9 @@ func (t Template) Render() (string, error) {
 	return tpl.String(), err
 }
 
-//RenderAndEmplace renders given template and put it in given place in filesystem.
-func (t Template) RenderAndEmplace() error {
-	renderedTemplate, err := t.Render()
+//RenderAndWrite renders given template and put it in given place in filesystem.
+func (t Template) RenderAndWrite() error {
+	renderedTemplate, err := t.render()
 
 	if err != nil {
 		return err

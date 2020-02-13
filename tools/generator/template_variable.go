@@ -7,6 +7,14 @@ type RandomVariables struct {
 	Property Property
 }
 
+//New returns new RandomVariables struct
+func New(e Entity, p Property) RandomVariables {
+	return RandomVariables{
+		Entity:   e,
+		Property: p,
+	}
+}
+
 //EntityFU returns Entity value with first letter uppercase
 func (t RandomVariables) EntityFU() string {
 	return strings.Title(string(t.Entity))

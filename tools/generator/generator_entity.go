@@ -13,19 +13,8 @@ type RandomEntity interface {
 
 //RandomEntity returns randomly picked entity
 func (e Entity) Random() Entity {
-	entities := []Entity{
-		"tree",
-		"bush",
-		"building",
-		"sky",
-		"ocean",
-		"sea",
-		"cloud",
-		"peak",
-		"land",
-		"voivodeship",
-		"country",
-		"continent",
+	entities := []Entity{"tree", "bush", "building", "sky", "ocean", "sea",
+		"cloud", "peak", "land", "voivodeship", "country", "continent",
 		"planet",
 		"galactic",
 		"nebula",

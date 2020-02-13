@@ -6,9 +6,9 @@ import (
 	"generator/backend-go/templates"
 	"generator/backend-go/tools/generator"
 	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource"
 	"github.com/urfave/cli/v2"
 	"log"
-	"os"
 	"sync"
 )
 
@@ -58,17 +58,17 @@ func GeographyExpand(c *cli.Context) error {
 
 	for _, tpl := range allTemplates {
 		wg.Add(1)
-		go renderAndEmplace(tpl)
+		go renderAndWrite(tpl)
 	}
 
 	wg.Wait()
 	return nil
 }
 
-//renderAndEmplace renders template and emplace it.
-func renderAndEmplace(tpl templates.Template) {
+//renderAndWrite renders template and emplace it.
+func renderAndWrite(tpl templates.Template) {
 	defer wg.Done()
-	err := tpl.RenderAndEmplace()
+	err := tpl.RenderAndWrite()
 
 	if err != nil {
 		log.Fatal(err)
@@ -77,39 +77,38 @@ func renderAndEmplace(tpl templates.Template) {
 
 //checkDirectoryStructure checks if user is in geography root folder
 func checkDirectoryStructure() error {
-
-	_, err := os.Stat(geography.EntityDir)
-	if os.IsNotExist(err) {
+	entityDirectory := resource.New(geography.EntityDir, "")
+	if !entityDirectory.Exist() {
 		return ErrInvalidDirectoryStructure
 	}
 
-	_, err = os.Stat(geography.ControllerDir)
-	if os.IsNotExist(err) {
+	controllerDirectory := resource.New(geography.ControllerDir, "")
+	if !controllerDirectory.Exist() {
 		return ErrInvalidDirectoryStructure
 	}
 
-	_, err = os.Stat(geography.RepositoryDir)
-	if os.IsNotExist(err) {
+	repositoryDirectory := resource.New(geography.RepositoryDir, "")
+	if !repositoryDirectory.Exist() {
 		return ErrInvalidDirectoryStructure
 	}
 
-	_, err = os.Stat(geography.ResourcesDir)
-	if os.IsNotExist(err) {
+	resourceDirectory := resource.New(geography.ResourcesDir, "")
+	if !resourceDirectory.Exist() {
 		return ErrInvalidDirectoryStructure
 	}
 
-	_, err = os.Stat(geography.RestApiDir)
-	if os.IsNotExist(err) {
+	restApiDirectory := resource.New(geography.RestApiDir, "")
+	if !restApiDirectory.Exist() {
 		return ErrInvalidDirectoryStructure
 	}
 
-	_, err = os.Stat(geography.BehatDir)
-	if os.IsNotExist(err) {
+	behatDirectory := resource.New(geography.BehatDir, "")
+	if !behatDirectory.Exist() {
 		return ErrInvalidDirectoryStructure
 	}
 
-	_, err = os.Stat(geography.DocumentationDir)
-	if os.IsNotExist(err) {
+	documentationDirectory := resource.New(geography.DocumentationDir, "")
+	if !documentationDirectory.Exist() {
 		return ErrInvalidDirectoryStructure
 	}
 
