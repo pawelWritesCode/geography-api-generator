@@ -26,9 +26,9 @@ func GeographyExpand(c *cli.Context) error {
 		return fmt.Errorf("%v, change directory to geography root directory", err)
 	}
 
-	var entity generator.Entity
-	var property generator.Property
-	randomVariables, err := generator.RandomTemplateVariables(entity, property, 10)
+	eGen := generator.NewEntityGenerator()
+	pGen := generator.NewPropertyGenerator()
+	randomVariables, err := generator.RandomTemplateVariables(eGen, pGen, 10)
 
 	if errors.Is(err, generator.ErrExpand) {
 		return fmt.Errorf("%v, project cannot expand anymore", err)

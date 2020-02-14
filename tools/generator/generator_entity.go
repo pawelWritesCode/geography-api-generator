@@ -8,12 +8,19 @@ import (
 //Entity is representation of symfony framework entity
 type Entity string
 
+type EntityGenerator struct{}
+
 type RandomEntity interface {
 	Random() Entity
 }
 
+//NewEntityGenerator returns new EntityGenerator struct
+func NewEntityGenerator() EntityGenerator {
+	return EntityGenerator{}
+}
+
 //RandomEntity returns randomly picked entity
-func (e Entity) Random() Entity {
+func (e EntityGenerator) Random() Entity {
 	entities := []Entity{"tree", "bush", "building", "sky", "ocean", "sea",
 		"cloud", "peak", "land", "voivodeship", "country", "continent",
 		"planet",

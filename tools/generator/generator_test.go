@@ -1,17 +1,21 @@
 package generator
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
-func TestEntity_Random(t *testing.T) {
+func TestEntityGenerator_Random(t *testing.T) {
+	gen := NewEntityGenerator()
 	var temp Entity
 	var count int8
 	for i := 0; i < 10; i++ {
 		if i == 0 {
-			temp = temp.Random()
+			temp = gen.Random()
 			continue
 		}
 
-		if temp == temp.Random() {
+		if temp == gen.Random() {
 			count++
 		}
 	}
@@ -21,16 +25,17 @@ func TestEntity_Random(t *testing.T) {
 	}
 }
 
-func TestProperty_Random(t *testing.T) {
+func TestPropertyGenerator_Random(t *testing.T) {
+	gen := NewPropertyGenerator()
 	var temp Property
 	var count int8
 	for i := 0; i < 10; i++ {
 		if i == 0 {
-			temp = temp.Random()
+			temp = gen.Random()
 			continue
 		}
 
-		if temp == temp.Random() {
+		if temp == gen.Random() {
 			count++
 		}
 	}
@@ -49,6 +54,38 @@ func TestNew(t *testing.T) {
 	if randomVariable.Property != p || randomVariable.Entity != e {
 		t.Errorf("Initialization of RandomVariables is invalid")
 	}
+}
+
+func ExampleNew() {
+	e := Entity("tree")
+	p := Property("height")
+
+	randomVariable := New(e, p)
+	fmt.Printf("%v", randomVariable)
+	//Output:
+	// {tree height}
+}
+
+func ExampleRandomVariables_EntityFU() {
+	e := Entity("tree")
+	p := Property("height")
+
+	randomVariable := New(e, p)
+	fmt.Printf("%s", randomVariable.EntityFU())
+
+	//Output:
+	//Tree
+}
+
+func ExampleRandomVariables_PropertyFU() {
+	e := Entity("tree")
+	p := Property("height")
+
+	randomVariable := New(e, p)
+	fmt.Printf("%s", randomVariable.PropertyFU())
+
+	//Output:
+	//Height
 }
 
 func TestRandomVariables_EntityFU_PropertyFU(t *testing.T) {
