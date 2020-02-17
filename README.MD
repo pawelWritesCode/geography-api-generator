@@ -1,6 +1,5 @@
 GEOGRAPHY EXPANDER
 ===================
-
 Simple CLI for expanding Geography API. 
 
 ### Building binary 
@@ -10,11 +9,13 @@ Run script `build.sh` from `backend-go/` dir
 ```bash
     ./build.sh
 ```
-Binary will be placed in `$GOPATH/bin/` dir, under name `aiqa-generator2`.
+CLI binary will be placed in `$GOPATH/bin/` dir, under name `geo-generator`.
 
 ### Usage
+*prerequisites: Clone `geography` project:
+https://github.com/pawelWritesCode/geo-vagrant-symfony3
 #### 1. Change directory to `geography` root folder.
 #### 2. Run command 
 ```bash
-aiqa-generator2 geography:expand
+geo-generator geography:expand
 ```
