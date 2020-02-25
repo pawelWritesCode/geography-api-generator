@@ -10,9 +10,9 @@ import (
 
 const RestApiDeleteTemplate = `<?php
 
-namespace AppBundle\RestApi\{{.EntityFU}};
+namespace AppBundle\RestApi\{{.Entity.EntityFU}};
 
-use AppBundle\Entity\{{.EntityFU}};
+use AppBundle\Entity\{{.Entity.EntityFU}};
 use Doctrine\ORM\EntityManagerInterface;
 
 class Delete
@@ -25,7 +25,7 @@ class Delete
         $this->entityManager = $entityManager;
     }
 
-    public function delete({{.EntityFU}} ${{.Entity}})
+    public function delete({{.Entity.EntityFU}} ${{.Entity}})
     {
         $this->entityManager->remove(${{.Entity}});
         $this->entityManager->flush();
@@ -41,6 +41,6 @@ func NewRestApiDelete(variables generator.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
-	return New(resource.New(geography.RestApiDir+variables.EntityFU()+"/", "Delete.php"),
+	return New(resource.New(geography.RestApiDir+variables.Entity.EntityFU()+"/", "Delete.php"),
 		rawTemplate, variables)
 }

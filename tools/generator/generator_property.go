@@ -5,9 +5,6 @@ import (
 	"time"
 )
 
-//Property represents property name
-type Property string
-
 //PropertyGenerator represents object that generates random properties
 type PropertyGenerator struct{}
 

@@ -5,9 +5,6 @@ import (
 	"time"
 )
 
-//Entity is representation of symfony framework entity
-type Entity string
-
 type EntityGenerator struct{}
 
 type RandomEntity interface {

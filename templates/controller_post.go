@@ -10,12 +10,12 @@ import (
 
 const ControllerPostTemplate = `<?php
 
-namespace AppBundle\Controller\{{.EntityFU}};
+namespace AppBundle\Controller\{{.Entity.EntityFU}};
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\GenericController;
-use AppBundle\RestApi\{{.EntityFU}}\Post as RestApiPostService;
+use AppBundle\RestApi\{{.Entity.EntityFU}}\Post as RestApiPostService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -62,6 +62,6 @@ func NewControllerPost(variables generator.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
-	return New(resource.New(geography.ControllerDir+variables.EntityFU()+"/", "Post.php"),
+	return New(resource.New(geography.ControllerDir+variables.Entity.EntityFU()+"/", "Post.php"),
 		rawTemplate, variables)
 }

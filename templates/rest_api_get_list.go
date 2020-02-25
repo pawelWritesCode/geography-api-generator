@@ -10,7 +10,7 @@ import (
 
 const RestApiGetListTemplate = `<?php
 
-namespace AppBundle\RestApi\{{.EntityFU}};
+namespace AppBundle\RestApi\{{.Entity.EntityFU}};
 
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -26,7 +26,7 @@ class GetList
     public function get()
     {
         return $this
-            ->entityManager->getRepository('AppBundle:{{.EntityFU}}')
+            ->entityManager->getRepository('AppBundle:{{.Entity.EntityFU}}')
             ->findBy([], ['createdAt' => 'DESC']);
     }
 }
@@ -40,6 +40,6 @@ func NewRestApiGetList(variables generator.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
-	return New(resource.New(geography.RestApiDir+variables.EntityFU()+"/", "GetList.php"),
+	return New(resource.New(geography.RestApiDir+variables.Entity.EntityFU()+"/", "GetList.php"),
 		rawTemplate, variables)
 }

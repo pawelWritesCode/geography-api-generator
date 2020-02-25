@@ -10,12 +10,12 @@ import (
 
 const ControllerGetListTemplate = `<?php
 
-namespace AppBundle\Controller\{{.EntityFU}};
+namespace AppBundle\Controller\{{.Entity.EntityFU}};
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\GenericController;
-use AppBundle\RestApi\{{.EntityFU}}\GetList as RestApiGetListService;
+use AppBundle\RestApi\{{.Entity.EntityFU}}\GetList as RestApiGetListService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -54,6 +54,6 @@ func NewControllerGetList(variables generator.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
-	return New(resource.New(geography.ControllerDir+variables.EntityFU()+"/", "GetList.php"),
+	return New(resource.New(geography.ControllerDir+variables.Entity.EntityFU()+"/", "GetList.php"),
 		rawTemplate, variables)
 }

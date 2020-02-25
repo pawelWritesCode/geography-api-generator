@@ -10,13 +10,13 @@ import (
 
 const ControllerDeleteTemplate = `<?php
 
-namespace AppBundle\Controller\{{.EntityFU}};
+namespace AppBundle\Controller\{{.Entity.EntityFU}};
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\GenericController;
-use AppBundle\Entity\{{.EntityFU}};
-use AppBundle\RestApi\{{.EntityFU}}\Delete as RestApiDeleteService;
+use AppBundle\Entity\{{.Entity.EntityFU}};
+use AppBundle\RestApi\{{.Entity.EntityFU}}\Delete as RestApiDeleteService;
 use Symfony\Component\HttpFoundation\Response;
 
 class Delete extends GenericController
@@ -25,7 +25,7 @@ class Delete extends GenericController
      * @Route("/api/{{.Entity}}/{{"{"}}{{.Entity}}{{"}"}}")
      * @Method("DELETE")
      */
-    public function deleteAction({{.EntityFU}} ${{.Entity}}, RestApiDeleteService $service)
+    public function deleteAction({{.Entity.EntityFU}} ${{.Entity}}, RestApiDeleteService $service)
     {
         $service->delete(${{.Entity}});
 
@@ -45,6 +45,6 @@ func NewControllerDelete(variables generator.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
-	return New(resource.New(geography.ControllerDir+variables.EntityFU()+"/", "Delete.php"),
+	return New(resource.New(geography.ControllerDir+variables.Entity.EntityFU()+"/", "Delete.php"),
 		rawTemplate, variables)
 }

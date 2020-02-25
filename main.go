@@ -15,6 +15,11 @@ func main() {
 				Usage:  "expand project by one entity",
 				Action: commands.GeographyExpand,
 			},
+			{
+				Name:   "geography:shrink",
+				Usage:  "shrink project by one entity",
+				Action: commands.GeographyShrink,
+			},
 		},
 	}
 

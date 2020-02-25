@@ -10,9 +10,9 @@ import (
 
 const RestApiPostTemplate = `<?php
 
-namespace AppBundle\RestApi\{{.EntityFU}};
+namespace AppBundle\RestApi\{{.Entity.EntityFU}};
 
-use AppBundle\Entity\{{.EntityFU}};
+use AppBundle\Entity\{{.Entity.EntityFU}};
 use Doctrine\ORM\EntityManagerInterface;
 
 class Post
@@ -28,11 +28,11 @@ class Post
     public function post($requestData)
     {
         ${{.Entity}} = $this->entityManager
-            ->getRepository('AppBundle:{{.EntityFU}}')
+            ->getRepository('AppBundle:{{.Entity.EntityFU}}')
             ->findOneBy(['name' => $requestData['name']]);
 
         if (!${{.Entity}}) {
-            ${{.Entity}} = new {{.EntityFU}}();
+            ${{.Entity}} = new {{.Entity.EntityFU}}();
             ${{.Entity}}->setFromArray($requestData);
             $this->entityManager->persist(${{.Entity}});
             $this->entityManager->flush();
@@ -51,6 +51,6 @@ func NewRestApiPost(variables generator.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
-	return New(resource.New(geography.RestApiDir+variables.EntityFU()+"/",
+	return New(resource.New(geography.RestApiDir+variables.Entity.EntityFU()+"/",
 		"Post.php"), rawTemplate, variables)
 }

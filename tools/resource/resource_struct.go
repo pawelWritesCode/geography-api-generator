@@ -3,6 +3,7 @@ package resource
 
 import (
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -88,4 +89,17 @@ func (r Resource) isDir() bool {
 	}
 
 	return false
+}
+
+//Unlink removes resource from file system
+func (r Resource) Unlink() error {
+	if r.isDir() {
+		return os.RemoveAll(r.Directory)
+	}
+
+	if r.isFile() {
+		return os.Remove(r.Directory + r.FileName)
+	}
+
+	return fmt.Errorf("resource is not file")
 }

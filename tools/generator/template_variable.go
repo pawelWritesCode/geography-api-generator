@@ -1,7 +1,5 @@
 package generator
 
-import "strings"
-
 //RandomVariables represents all variables required for rendering any available template
 type RandomVariables struct {
 	Entity   Entity
@@ -14,14 +12,4 @@ func New(e Entity, p Property) RandomVariables {
 		Entity:   e,
 		Property: p,
 	}
-}
-
-//EntityFU returns Entity value with first letter uppercase
-func (t RandomVariables) EntityFU() string {
-	return strings.Title(string(t.Entity))
-}
-
-//PropertyFU returns Property value with first letter uppercase
-func (t RandomVariables) PropertyFU() string {
-	return strings.Title(string(t.Property))
 }

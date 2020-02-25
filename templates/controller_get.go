@@ -10,12 +10,12 @@ import (
 
 const ControllerGetTemplate = `<?php
 
-namespace AppBundle\Controller\{{.EntityFU}};
+namespace AppBundle\Controller\{{.Entity.EntityFU}};
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\GenericController;
-use AppBundle\Entity\{{.EntityFU}};
+use AppBundle\Entity\{{.Entity.EntityFU}};
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -28,7 +28,7 @@ class Get extends GenericController
     public function getAction(
         Request $request,
         SerializerInterface $serializer,
-        {{.EntityFU}} ${{.Entity}}
+        {{.Entity.EntityFU}} ${{.Entity}}
     ) {
         $data = $serializer->serialize(
             ${{.Entity}},
@@ -52,6 +52,6 @@ func NewControllerGet(variables generator.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
-	return New(resource.New(geography.ControllerDir+variables.EntityFU()+"/", "Get.php"),
+	return New(resource.New(geography.ControllerDir+variables.Entity.EntityFU()+"/", "Get.php"),
 		rawTemplate, variables)
 }

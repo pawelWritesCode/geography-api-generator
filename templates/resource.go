@@ -8,10 +8,10 @@ import (
 	"text/template"
 )
 
-const ResourceTemplate = `AppBundle\Entity\{{.EntityFU}}:
+const ResourceTemplate = `AppBundle\Entity\{{.Entity.EntityFU}}:
     type: entity
     table: null
-    repositoryClass: AppBundle\Repository\{{.EntityFU}}Repository
+    repositoryClass: AppBundle\Repository\{{.Entity.EntityFU}}Repository
     id:
         id:
             type: integer
@@ -40,5 +40,5 @@ func NewResource(variables generator.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
-	return New(resource.New(geography.ResourcesDir, variables.EntityFU()+".orm.yml"), rawTemplate, variables)
+	return New(resource.New(geography.ResourcesDir, variables.Entity.EntityFU()+".orm.yml"), rawTemplate, variables)
 }

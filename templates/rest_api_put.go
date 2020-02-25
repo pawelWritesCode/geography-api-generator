@@ -10,9 +10,9 @@ import (
 
 const RestApiPutTemplate = `<?php
 
-namespace AppBundle\RestApi\{{.EntityFU}};
+namespace AppBundle\RestApi\{{.Entity.EntityFU}};
 
-use AppBundle\Entity\{{.EntityFU}};
+use AppBundle\Entity\{{.Entity.EntityFU}};
 use Doctrine\ORM\EntityManagerInterface;
 
 class Put
@@ -25,10 +25,10 @@ class Put
     }
 
     /**
-     * @param {{.EntityFU}} ${{.Entity}}
+     * @param {{.Entity.EntityFU}} ${{.Entity}}
      * @param $requestData
      */
-    public function put({{.EntityFU}} ${{.Entity}}, $requestData)
+    public function put({{.Entity.EntityFU}} ${{.Entity}}, $requestData)
     {
         ${{.Entity}}->setFromArray($requestData);
 
@@ -45,6 +45,6 @@ func NewRestApiPut(variables generator.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
-	return New(resource.New(geography.RestApiDir+variables.EntityFU()+"/", "Put.php"),
+	return New(resource.New(geography.RestApiDir+variables.Entity.EntityFU()+"/", "Put.php"),
 		rawTemplate, variables)
 }

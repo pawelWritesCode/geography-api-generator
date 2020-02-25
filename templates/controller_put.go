@@ -10,13 +10,13 @@ import (
 
 const ControllerPutTemplate = `<?php
 
-namespace AppBundle\Controller\{{.EntityFU}};
+namespace AppBundle\Controller\{{.Entity.EntityFU}};
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Controller\GenericController;
-use AppBundle\Entity\{{.EntityFU}};
-use AppBundle\RestApi\{{.EntityFU}}\Put as RestApiPutService;
+use AppBundle\Entity\{{.Entity.EntityFU}};
+use AppBundle\RestApi\{{.Entity.EntityFU}}\Put as RestApiPutService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -30,7 +30,7 @@ class Put extends GenericController
     public function putAction(
         Request $request,
         SerializerInterface $serializer,
-        {{.EntityFU}} ${{.Entity}},
+        {{.Entity.EntityFU}} ${{.Entity}},
         RestApiPutService $service
     ) {
         $jsonRequestData = json_decode($request->getContent());
@@ -66,6 +66,6 @@ func NewControllerPut(variables generator.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
-	return New(resource.New(geography.ControllerDir+variables.EntityFU()+"/", "Put.php"),
+	return New(resource.New(geography.ControllerDir+variables.Entity.EntityFU()+"/", "Put.php"),
 		rawTemplate, variables)
 }

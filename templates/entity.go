@@ -15,9 +15,9 @@ namespace AppBundle\Entity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * {{.EntityFU}}.
+ * {{.Entity.EntityFU}}.
  */
-class {{.EntityFU}}
+class {{.Entity.EntityFU}}
 {
     use EntityExtensions;
 
@@ -60,7 +60,7 @@ class {{.EntityFU}}
      *
      * @param string $name
      *
-     * @return {{.EntityFU}}
+     * @return {{.Entity.EntityFU}}
      */
     public function setName($name)
     {
@@ -84,9 +84,9 @@ class {{.EntityFU}}
      *
      * @param int ${{.Property}}
      *
-     * @return {{.EntityFU}}
+     * @return {{.Entity.EntityFU}}
      */
-    public function set{{.PropertyFU}}(${{.Property}})
+    public function set{{.Property.PropertyFU}}(${{.Property}})
     {
         $this->{{.Property}} = ${{.Property}};
 
@@ -98,7 +98,7 @@ class {{.EntityFU}}
      *
      * @return int
      */
-    public function get{{.PropertyFU}}()
+    public function get{{.Property.PropertyFU}}()
     {
         return $this->{{.Property}};
     }
@@ -108,7 +108,7 @@ class {{.EntityFU}}
      *
      * @param \DateTime $createdAt
      *
-     * @return {{.EntityFU}}
+     * @return {{.Entity.EntityFU}}
      */
     public function setCreatedAt($createdAt)
     {
@@ -144,5 +144,5 @@ func NewEntity(variables generator.RandomVariables) Template {
 		log.Fatal(err)
 	}
 
-	return New(resource.New(geography.EntityDir, variables.EntityFU()+".php"), rawTemplate, variables)
+	return New(resource.New(geography.EntityDir, variables.Entity.EntityFU()+".php"), rawTemplate, variables)
 }
