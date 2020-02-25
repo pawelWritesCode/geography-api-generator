@@ -78,39 +78,20 @@ func renderAndWrite(tpl templates.Template) {
 
 //checkDirectoryStructure checks if user is in geography root folder
 func checkDirectoryStructure() error {
-	entityDirectory := resource.New(geography.EntityDir, "")
-	if !entityDirectory.Exist() {
-		return ErrInvalidDirectoryStructure
+	dirs := [7]resource.Resource{
+		resource.New(geography.EntityDir, ""),
+		resource.New(geography.ControllerDir, ""),
+		resource.New(geography.RepositoryDir, ""),
+		resource.New(geography.ResourcesDir, ""),
+		resource.New(geography.RestApiDir, ""),
+		resource.New(geography.BehatDir, ""),
+		resource.New(geography.DocumentationDir, ""),
 	}
 
-	controllerDirectory := resource.New(geography.ControllerDir, "")
-	if !controllerDirectory.Exist() {
-		return ErrInvalidDirectoryStructure
-	}
-
-	repositoryDirectory := resource.New(geography.RepositoryDir, "")
-	if !repositoryDirectory.Exist() {
-		return ErrInvalidDirectoryStructure
-	}
-
-	resourceDirectory := resource.New(geography.ResourcesDir, "")
-	if !resourceDirectory.Exist() {
-		return ErrInvalidDirectoryStructure
-	}
-
-	restApiDirectory := resource.New(geography.RestApiDir, "")
-	if !restApiDirectory.Exist() {
-		return ErrInvalidDirectoryStructure
-	}
-
-	behatDirectory := resource.New(geography.BehatDir, "")
-	if !behatDirectory.Exist() {
-		return ErrInvalidDirectoryStructure
-	}
-
-	documentationDirectory := resource.New(geography.DocumentationDir, "")
-	if !documentationDirectory.Exist() {
-		return ErrInvalidDirectoryStructure
+	for _, dir := range dirs {
+		if !dir.Exist() {
+			return ErrInvalidDirectoryStructure
+		}
 	}
 
 	return nil
