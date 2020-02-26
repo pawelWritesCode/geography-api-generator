@@ -4,16 +4,12 @@ package commands
 import (
 	"errors"
 	"fmt"
-	"generator/backend-go/templates"
+	"generator/backend-go/tools/expand"
 	"generator/backend-go/tools/generator"
 	"generator/backend-go/tools/geography"
 	"generator/backend-go/tools/resource"
 	"github.com/urfave/cli/v2"
-	"log"
-	"sync"
 )
-
-var wg sync.WaitGroup
 
 //ErrInvalidDirectoryStructure occurs when there are missing some folders. Probably user is not in geography root
 var ErrInvalidDirectoryStructure = errors.New("invalid directory structure")
@@ -26,54 +22,15 @@ func GeographyExpand(c *cli.Context) error {
 		return fmt.Errorf("%v, change directory to geography root directory", err)
 	}
 
+	worker := expand.New()
 	eGen := generator.NewEntityGenerator()
 	pGen := generator.NewPropertyGenerator()
-	randomVariables, err := generator.RandomTemplateVariables(eGen, pGen, 10)
-
-	if errors.Is(err, generator.ErrExpand) {
-		return fmt.Errorf("%v, project cannot expand anymore", err)
-	}
-
-	allTemplates := []templates.Template{
-		templates.NewEntity(randomVariables),
-		templates.NewControllerDelete(randomVariables),
-		templates.NewControllerGet(randomVariables),
-		templates.NewControllerGetList(randomVariables),
-		templates.NewControllerPost(randomVariables),
-		templates.NewControllerPut(randomVariables),
-		templates.NewResource(randomVariables),
-		templates.NewRepository(randomVariables),
-		templates.NewRestApiDelete(randomVariables),
-		templates.NewRestApiGetList(randomVariables),
-		templates.NewRestApiPost(randomVariables),
-		templates.NewRestApiPut(randomVariables),
-		templates.NewBehatCreate(randomVariables),
-		templates.NewBehatGetId(randomVariables),
-		templates.NewBehatDelete(randomVariables),
-		templates.NewBehatGetList(randomVariables),
-		templates.NewBehatPut(randomVariables),
-		templates.NewDocumentationRequest(randomVariables),
-		templates.NewDocumentationResponseSingle(randomVariables),
-		templates.NewDocumentationResponseArray(randomVariables),
-	}
-
-	for _, tpl := range allTemplates {
-		wg.Add(1)
-		go renderAndWrite(tpl)
-	}
-
-	wg.Wait()
-	return nil
-}
-
-//renderAndWrite renders template and emplace it.
-func renderAndWrite(tpl templates.Template) {
-	defer wg.Done()
-	err := tpl.RenderAndWrite()
+	err = worker.ExpandRandom(eGen, pGen)
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
+	return nil
 }
 
 //checkDirectoryStructure checks if user is in geography root folder

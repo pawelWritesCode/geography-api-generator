@@ -2,9 +2,8 @@
 package decay
 
 import (
-	"fmt"
+	"context"
 	"generator/backend-go/tools/decay/picker"
-	"generator/backend-go/tools/generator"
 	"generator/backend-go/tools/geography"
 	"generator/backend-go/tools/resource"
 )
@@ -12,17 +11,18 @@ import (
 //Worker is responsible for shrinking project
 type Worker struct{}
 
-//Shrink remove entity related files from project
-func (w Worker) Shrink(e generator.Entity) error {
-	entityPicker := picker.New()
-	ok, err := entityPicker.EntityExists(e)
+//New returns new worker struct
+func New() Worker {
+	return Worker{}
+}
+
+//ShrinkRandom remove random available entity and related to it files from project
+func (w Worker) ShrinkRandom(picker picker.RandomEntityPicker) error {
+	ch1 := make(chan error)
+	e, err := picker.RandomEntity()
 
 	if err != nil {
 		return err
-	}
-
-	if ok == false {
-		return fmt.Errorf("entity %s does not exists", e)
 	}
 
 	resources := []resource.Resource{
@@ -37,13 +37,31 @@ func (w Worker) Shrink(e generator.Entity) error {
 		resource.New(geography.DocumentationDir+"response/", string(e)+"_array.json"),
 	}
 
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	for _, res := range resources {
-		err := res.Unlink()
+		go unlinkResource(ctx, res, ch1)
+	}
+
+	for i := 0; i < len(resources); i++ {
+		err = <-ch1
 
 		if err != nil {
+			cancel()
 			return err
 		}
 	}
 
 	return nil
+}
+
+//unlinkResource unlinks resource
+func unlinkResource(ctx context.Context, res resource.Resource, ch1 chan error) {
+	select {
+	case <-ctx.Done():
+		return
+	default:
+		ch1 <- res.Unlink()
+	}
 }

@@ -15,7 +15,8 @@ CLI binary will be placed in `$GOPATH/bin/` dir, under name `geo-generator`.
 *prerequisites: Clone `geography` project:
 https://github.com/pawelWritesCode/geo-vagrant-symfony3
 #### 1. Change directory to `geography` root folder.
-#### 2. Run command 
+#### 2. Run one of available commands 
 ```bash
 geo-generator geography:expand
+geo-generator geography:shrink
 ```

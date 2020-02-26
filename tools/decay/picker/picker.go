@@ -14,6 +14,10 @@ import (
 //Picker is object responsible for picking entity related things
 type Picker struct{}
 
+type RandomEntityPicker interface {
+	RandomEntity() (generator.Entity, error)
+}
+
 //ErrNoAvailableEntities occurs when there are no left any free entities to shrink from
 var ErrNoAvailableEntities = errors.New("no available entities")
 
