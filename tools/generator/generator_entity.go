@@ -20,15 +20,8 @@ func NewEntityGenerator() EntityGenerator {
 func (e EntityGenerator) Random() Entity {
 	entities := []Entity{"tree", "bush", "building", "sky", "ocean", "sea",
 		"cloud", "peak", "land", "voivodeship", "country", "continent",
-		"planet",
-		"galactic",
-		"nebula",
-		"universe",
-		"path",
-		"star",
-		"village",
-		"forest",
-		"reef",
+		"planet", "galactic", "nebula", "universe", "path", "star", "village",
+		"forest", "reef",
 	}
 
 	rand.Seed(time.Now().UnixNano())

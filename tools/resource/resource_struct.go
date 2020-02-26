@@ -9,6 +9,7 @@ import (
 	"path"
 )
 
+//ErrInvalidResource occurs when resource is not file
 var ErrInvalidResource = errors.New("resource is not file")
 
 type Existence interface {

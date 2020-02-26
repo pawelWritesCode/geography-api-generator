@@ -66,26 +66,38 @@ func ExampleNew() {
 	// {tree height}
 }
 
-func ExampleRandomVariables_EntityFU() {
-	e := Entity("tree")
-	p := Property("height")
+func TestEntity_EntityFU(t *testing.T) {
+	e := Entity("hello")
+	want := "Hello"
 
-	randomVariable := New(e, p)
-	fmt.Printf("%s", randomVariable.EntityFU())
-
-	//Output:
-	//Tree
+	if e.EntityFU() != want {
+		t.Errorf("got %s want %s", e.EntityFU(), want)
+	}
 }
 
-func ExampleRandomVariables_PropertyFU() {
-	e := Entity("tree")
-	p := Property("height")
-
-	randomVariable := New(e, p)
-	fmt.Printf("%s", randomVariable.PropertyFU())
+func ExampleEntity_EntityFU() {
+	e := Entity("hello")
+	fmt.Println(e.EntityFU())
 
 	//Output:
-	//Height
+	//Hello
+}
+
+func TestProperty_PropertyFU(t *testing.T) {
+	p := Property("width")
+	want := "Width"
+
+	if p.PropertyFU() != want {
+		t.Errorf("got %s want %s", p.PropertyFU(), want)
+	}
+}
+
+func ExampleProperty_PropertyFU() {
+	p := Property("width")
+	fmt.Println(p.PropertyFU())
+
+	//Output:
+	//Width
 }
 
 func TestRandomVariables_EntityFU_PropertyFU(t *testing.T) {
@@ -129,12 +141,12 @@ func TestRandomVariables_EntityFU_PropertyFU(t *testing.T) {
 	}
 
 	for _, item := range data {
-		if item.got.EntityFU() != item.want.entityFu {
-			t.Errorf("invalid output: want %s got %s", item.want.entityFu, item.got.EntityFU())
+		if item.got.Entity.EntityFU() != item.want.entityFu {
+			t.Errorf("invalid output: want %s got %s", item.want.entityFu, item.got.Entity.EntityFU())
 		}
 
-		if item.got.PropertyFU() != item.want.propertyFu {
-			t.Errorf("invalid output: want %s got %s", item.want.propertyFu, item.got.PropertyFU())
+		if item.got.Property.PropertyFU() != item.want.propertyFu {
+			t.Errorf("invalid output: want %s got %s", item.want.propertyFu, item.got.Property.PropertyFU())
 		}
 	}
 }

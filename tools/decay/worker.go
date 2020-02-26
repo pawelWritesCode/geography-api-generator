@@ -1,4 +1,9 @@
-//Package decay implement method for shrinking project
+//Package decay implement methods for shrinking project.
+//
+//To shrink project, instantiate new worker using
+//	New()
+//to shrink by one random entity use method
+//	ShrinkRandom(picker picker.RandomEntityPicker)
 package decay
 
 import (
@@ -18,7 +23,6 @@ func New() Worker {
 
 //ShrinkRandom remove random available entity and related to it files from project
 func (w Worker) ShrinkRandom(picker picker.RandomEntityPicker) error {
-	ch1 := make(chan error)
 	e, err := picker.RandomEntity()
 
 	if err != nil {
@@ -37,6 +41,7 @@ func (w Worker) ShrinkRandom(picker picker.RandomEntityPicker) error {
 		resource.New(geography.DocumentationDir+"response/", string(e)+"_array.json"),
 	}
 
+	ch1 := make(chan error)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 

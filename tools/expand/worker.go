@@ -1,20 +1,24 @@
+//Package expand implement methods for expanding project.
+//
+//To expand project, instantiate new worker using
+//	New()
+//to expand by one random entity use method
+//	ExpandRandom(eGen generator.RandomEntity, pGen generator.RandomProperty)
 package expand
 
 import (
+	"context"
 	"generator/backend-go/templates"
 	"generator/backend-go/tools/generator"
-	"log"
-	"sync"
 )
 
+//Worker is responsible for expanding project
 type Worker struct{}
 
 //New returns new Worker struct
 func New() Worker {
 	return Worker{}
 }
-
-var wg sync.WaitGroup
 
 //ExpandRandom expands project by one random entity
 func (w Worker) ExpandRandom(eGen generator.RandomEntity, pGen generator.RandomProperty) error {
@@ -47,22 +51,32 @@ func (w Worker) ExpandRandom(eGen generator.RandomEntity, pGen generator.RandomP
 		templates.NewDocumentationResponseArray(randomVariables),
 	}
 
+	ch1 := make(chan error)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	for _, tpl := range allTemplates {
-		wg.Add(1)
-		go renderAndWrite(tpl)
+		go renderAndWrite(ctx, tpl, ch1)
 	}
 
-	wg.Wait()
+	for i := 0; i < len(allTemplates); i++ {
+		err = <-ch1
+
+		if err != nil {
+			cancel()
+			return err
+		}
+	}
 
 	return nil
 }
 
 //renderAndWrite renders template and emplace it.
-func renderAndWrite(tpl templates.Template) {
-	defer wg.Done()
-	err := tpl.RenderAndWrite()
-
-	if err != nil {
-		log.Fatal(err)
+func renderAndWrite(ctx context.Context, tpl templates.Template, ch1 chan error) {
+	select {
+	case <-ctx.Done():
+		return
+	default:
+		ch1 <- tpl.RenderAndWrite()
 	}
 }
