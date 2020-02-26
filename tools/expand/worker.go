@@ -1,8 +1,6 @@
 package expand
 
 import (
-	"errors"
-	"fmt"
 	"generator/backend-go/templates"
 	"generator/backend-go/tools/generator"
 	"log"
@@ -22,8 +20,8 @@ var wg sync.WaitGroup
 func (w Worker) ExpandRandom(eGen generator.RandomEntity, pGen generator.RandomProperty) error {
 	randomVariables, err := generator.RandomTemplateVariables(eGen, pGen, 10)
 
-	if errors.Is(err, generator.ErrExpand) {
-		return fmt.Errorf("%v, project cannot expand anymore", err)
+	if err != nil {
+		return err
 	}
 
 	allTemplates := []templates.Template{
