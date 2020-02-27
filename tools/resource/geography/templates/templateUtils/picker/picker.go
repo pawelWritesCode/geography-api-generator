@@ -20,6 +20,10 @@ type RandomEntityPicker interface {
 	RandomEntity() (templateUtils.Entity, error)
 }
 
+type RandomEntityAndPropertyPicker interface {
+	RandomEntityAndProperty() (templateUtils.TemplateVariables, error)
+}
+
 //ErrNoAvailableEntities occurs when there are no left any free entities to shrink from
 var ErrNoAvailableEntities = errors.New("no available entities")
 
@@ -43,6 +47,7 @@ func (p Picker) RandomEntity() (templateUtils.Entity, error) {
 	return entities[randIndex], nil
 }
 
+//RandomEntityAndProperty pick one of available entities and returns templateVariables with entity and property
 func (p Picker) RandomEntityAndProperty() (templateUtils.TemplateVariables, error) {
 	entity, err := p.RandomEntity()
 	randomVariable := templateUtils.NewTemplateVariables(entity, "")
@@ -54,6 +59,7 @@ func (p Picker) RandomEntityAndProperty() (templateUtils.TemplateVariables, erro
 	return p.EntityAndProperty(entity)
 }
 
+//EntityAndProperty returns templateVariables with entity and its property
 func (p Picker) EntityAndProperty(e templateUtils.Entity) (templateUtils.TemplateVariables, error) {
 	randomVariable := templateUtils.NewTemplateVariables(e, "")
 	readFile, err := os.Open(geography.EntityDir + e.EntityFU() + ".php")
@@ -85,16 +91,6 @@ func (p Picker) EntityAndProperty(e templateUtils.Entity) (templateUtils.Templat
 	randomVariable.Property = templateUtils.Property(propertyRaw[1 : len(propertyRaw)-1])
 
 	return randomVariable, err
-}
-
-func inArray(item string, arr []string) bool {
-	for _, i := range arr {
-		if i == item {
-			return true
-		}
-	}
-
-	return false
 }
 
 //AvailableEntities loops over entity folder and returns array of available entities
@@ -139,4 +135,15 @@ func (p Picker) EntityExists(e templateUtils.Entity) (bool, error) {
 	}
 
 	return false, nil
+}
+
+//inArray checks if item is in given arr
+func inArray(item string, arr []string) bool {
+	for _, i := range arr {
+		if i == item {
+			return true
+		}
+	}
+
+	return false
 }

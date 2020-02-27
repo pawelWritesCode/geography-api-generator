@@ -19,4 +19,5 @@ https://github.com/pawelWritesCode/geo-vagrant-symfony3
 ```bash
 geo-generator geography:expand
 geo-generator geography:shrink
+geo-generator geography:rename
 ```

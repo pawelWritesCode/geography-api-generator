@@ -10,11 +10,11 @@ import (
 func TestNew(t *testing.T) {
 	res := resource.New("abc", "def")
 	tpl := template.New("abc")
-	variable := templateUtils.NewTemplateVariables(templateUtils.Entity("a"), templateUtils.Property("b"))
+	variable := templateUtils.NewTemplateVariables("a", "b")
 	got := New(res, tpl, variable)
 
-	if Resource != res {
-		t.Errorf("invalid resource got %v, has %v", Resource, res)
+	if got.Resource != res {
+		t.Errorf("invalid resource got %v, has %v", got.Resource, res)
 	}
 
 	if got.Payload != tpl {

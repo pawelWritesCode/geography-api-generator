@@ -1,16 +1,10 @@
-//Package expand implement methods for expanding project.
-//
-//To expand project, instantiate new worker using
-//	NewWorkerExpand()
-//to expand by one random entity use method
-//	ExpandRandom(eGen generator.RandomEntity, pGen generator.RandomProperty)
 package worker
 
 import (
 	"context"
-	templates2 "generator/backend-go/tools/resource/geography/templates"
-	templateUtils2 "generator/backend-go/tools/resource/geography/templates/templateUtils"
-	generator2 "generator/backend-go/tools/resource/geography/templates/templateUtils/generator"
+	"generator/backend-go/tools/resource/geography/templates"
+	"generator/backend-go/tools/resource/geography/templates/templateUtils"
+	"generator/backend-go/tools/resource/geography/templates/templateUtils/generator"
 )
 
 //WorkerExpand is responsible for expanding project
@@ -22,8 +16,8 @@ func NewWorkerExpand() WorkerExpand {
 }
 
 //ExpandRandom expands project by one random entity
-func (w WorkerExpand) ExpandRandom(eGen generator2.RandomEntity, pGen generator2.RandomProperty) error {
-	randomVariables, err := generator2.RandomTemplateVariables(eGen, pGen, 10)
+func (w WorkerExpand) ExpandRandom(eGen generator.RandomEntity, pGen generator.RandomProperty) error {
+	randomVariables, err := generator.RandomTemplateVariables(eGen, pGen, 10)
 
 	if err != nil {
 		return err
@@ -33,28 +27,28 @@ func (w WorkerExpand) ExpandRandom(eGen generator2.RandomEntity, pGen generator2
 }
 
 //ExpandSpecific expands project by one entity
-func (w WorkerExpand) ExpandSpecific(randomVariables templateUtils2.TemplateVariables) error {
-	allTemplates := []templates2.Template{
-		templates2.NewEntity(randomVariables),
-		templates2.NewControllerDelete(randomVariables),
-		templates2.NewControllerGet(randomVariables),
-		templates2.NewControllerGetList(randomVariables),
-		templates2.NewControllerPost(randomVariables),
-		templates2.NewControllerPut(randomVariables),
-		templates2.NewResource(randomVariables),
-		templates2.NewRepository(randomVariables),
-		templates2.NewRestApiDelete(randomVariables),
-		templates2.NewRestApiGetList(randomVariables),
-		templates2.NewRestApiPost(randomVariables),
-		templates2.NewRestApiPut(randomVariables),
-		templates2.NewBehatCreate(randomVariables),
-		templates2.NewBehatGetId(randomVariables),
-		templates2.NewBehatDelete(randomVariables),
-		templates2.NewBehatGetList(randomVariables),
-		templates2.NewBehatPut(randomVariables),
-		templates2.NewDocumentationRequest(randomVariables),
-		templates2.NewDocumentationResponseSingle(randomVariables),
-		templates2.NewDocumentationResponseArray(randomVariables),
+func (w WorkerExpand) ExpandSpecific(randomVariables templateUtils.TemplateVariables) error {
+	allTemplates := []templates.Template{
+		templates.NewEntity(randomVariables),
+		templates.NewControllerGet(randomVariables),
+		templates.NewControllerDelete(randomVariables),
+		templates.NewControllerGetList(randomVariables),
+		templates.NewControllerPost(randomVariables),
+		templates.NewControllerPut(randomVariables),
+		templates.NewResource(randomVariables),
+		templates.NewRepository(randomVariables),
+		templates.NewRestApiDelete(randomVariables),
+		templates.NewRestApiGetList(randomVariables),
+		templates.NewRestApiPost(randomVariables),
+		templates.NewRestApiPut(randomVariables),
+		templates.NewBehatCreate(randomVariables),
+		templates.NewBehatGetId(randomVariables),
+		templates.NewBehatDelete(randomVariables),
+		templates.NewBehatGetList(randomVariables),
+		templates.NewBehatPut(randomVariables),
+		templates.NewDocumentationRequest(randomVariables),
+		templates.NewDocumentationResponseSingle(randomVariables),
+		templates.NewDocumentationResponseArray(randomVariables),
 	}
 
 	ch1 := make(chan error)
@@ -79,7 +73,7 @@ func (w WorkerExpand) ExpandSpecific(randomVariables templateUtils2.TemplateVari
 }
 
 //renderAndWrite renders template and emplace it.
-func renderAndWrite(ctx context.Context, tpl templates2.Template, ch1 chan error) {
+func renderAndWrite(ctx context.Context, tpl templates.Template, ch1 chan error) {
 	select {
 	case <-ctx.Done():
 		return

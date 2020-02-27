@@ -1,9 +1,3 @@
-//Package decay implement methods for shrinking project.
-//
-//To shrink project, instantiate new worker using
-//	NewWorkerDecay()
-//to shrink by one random entity use method
-//	ShrinkRandom(picker picker.RandomEntityPicker)
 package worker
 
 import (
@@ -11,8 +5,8 @@ import (
 	"fmt"
 	"generator/backend-go/tools/resource"
 	"generator/backend-go/tools/resource/geography"
-	templateUtils2 "generator/backend-go/tools/resource/geography/templates/templateUtils"
-	picker2 "generator/backend-go/tools/resource/geography/templates/templateUtils/picker"
+	"generator/backend-go/tools/resource/geography/templates/templateUtils"
+	"generator/backend-go/tools/resource/geography/templates/templateUtils/picker"
 )
 
 //WorkerDecay is responsible for shrinking project
@@ -24,7 +18,7 @@ func NewWorkerDecay() WorkerDecay {
 }
 
 //ShrinkRandom remove one random available entity and related to it files from project
-func (w WorkerDecay) ShrinkRandom(picker picker2.RandomEntityPicker) error {
+func (w WorkerDecay) ShrinkRandom(picker picker.RandomEntityPicker) error {
 	e, err := picker.RandomEntity()
 
 	if err != nil {
@@ -35,7 +29,7 @@ func (w WorkerDecay) ShrinkRandom(picker picker2.RandomEntityPicker) error {
 }
 
 //ShrinkSpecific entity and related to it files from project
-func (w WorkerDecay) ShrinkSpecific(e templateUtils2.Entity) error {
+func (w WorkerDecay) ShrinkSpecific(e templateUtils.Entity) error {
 	entityRes := resource.New(geography.EntityDir, e.EntityFU()+".php")
 
 	if !entityRes.Exist() {

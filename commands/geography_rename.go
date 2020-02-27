@@ -5,14 +5,13 @@ import (
 	"errors"
 	"fmt"
 	"generator/backend-go/tools/resource/geography"
-	"generator/backend-go/tools/resource/geography/templates/templateUtils"
 	"generator/backend-go/tools/resource/geography/templates/templateUtils/generator"
 	"generator/backend-go/tools/resource/geography/templates/templateUtils/picker"
 	"generator/backend-go/tools/resource/geography/worker"
 	"github.com/urfave/cli/v2"
 )
 
-//GeographyExpand command shrinks geography project by one random entity and related to it files like controllers etc..
+//GeographyRename command is responsible for renaming one random entity
 func GeographyRename(c *cli.Context) error {
 	err := geography.CheckDirStructure()
 
@@ -23,27 +22,13 @@ func GeographyRename(c *cli.Context) error {
 	}
 
 	randomPicker := picker.New()
-	rnd, err := randomPicker.RandomEntityAndProperty()
+	eGen := generator.NewEntityGenerator()
+	workerRename := worker.NewWorkerRename()
+	err = workerRename.RenameRandom(eGen, randomPicker)
 
-	if err != nil {
-		return err
-	}
-	//Remove this entity
-	decayWorker := worker.NewWorkerDecay()
-	err = decayWorker.ShrinkSpecific(rnd.Entity)
-
-	if err != nil {
-		return err
-	}
-
-	//Add new one with same property
-	entityGenerator := generator.NewEntityGenerator()
-	specificVariables := templateUtils.NewTemplateVariables(entityGenerator.Random(), rnd.Property)
-
-	expandWorker := worker.NewWorkerExpand()
-	err = expandWorker.ExpandSpecific(specificVariables)
-
-	if err != nil {
+	if errors.Is(err, picker.ErrNoAvailableEntities) {
+		return fmt.Errorf("there are no entities left for renaming")
+	} else if err != nil {
 		return err
 	}
 
