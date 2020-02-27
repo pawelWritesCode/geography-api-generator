@@ -4,9 +4,9 @@ package commands
 import (
 	"errors"
 	"fmt"
-	"generator/backend-go/tools/decay"
-	"generator/backend-go/tools/decay/picker"
-	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource/geography"
+	"generator/backend-go/tools/resource/geography/templates/templateUtils/picker"
+	worker2 "generator/backend-go/tools/resource/geography/worker"
 	"github.com/urfave/cli/v2"
 )
 
@@ -22,7 +22,7 @@ func GeographyShrink(c *cli.Context) error {
 
 	randomEntityPicker := picker.New()
 
-	worker := decay.New()
+	worker := worker2.NewWorkerDecay()
 	err = worker.ShrinkRandom(randomEntityPicker)
 
 	if errors.Is(err, picker.ErrNoAvailableEntities) {

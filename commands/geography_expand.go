@@ -4,9 +4,9 @@ package commands
 import (
 	"errors"
 	"fmt"
-	"generator/backend-go/tools/expand"
-	"generator/backend-go/tools/generator"
-	"generator/backend-go/tools/geography"
+	"generator/backend-go/tools/resource/geography"
+	"generator/backend-go/tools/resource/geography/templates/templateUtils/generator"
+	worker2 "generator/backend-go/tools/resource/geography/worker"
 	"github.com/urfave/cli/v2"
 )
 
@@ -20,7 +20,7 @@ func GeographyExpand(c *cli.Context) error {
 		return err
 	}
 
-	worker := expand.New()
+	worker := worker2.NewWorkerExpand()
 	eGen := generator.NewEntityGenerator()
 	pGen := generator.NewPropertyGenerator()
 	err = worker.ExpandRandom(eGen, pGen)

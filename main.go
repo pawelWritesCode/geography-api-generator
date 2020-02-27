@@ -20,6 +20,11 @@ func main() {
 				Usage:  "shrink project by one entity",
 				Action: commands.GeographyShrink,
 			},
+			{
+				Name:   "geography:rename",
+				Usage:  "rename one entity and all its related files/folders",
+				Action: commands.GeographyRename,
+			},
 		},
 	}
 
