@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"generator/backend-go/tools/resource/geography"
 	"generator/backend-go/tools/resource/geography/templates/templateUtils/generator"
-	worker2 "generator/backend-go/tools/resource/geography/worker"
+	"generator/backend-go/tools/resource/geography/worker"
 	"github.com/urfave/cli/v2"
 )
 
@@ -15,20 +15,28 @@ func GeographyExpand(c *cli.Context) error {
 	err := geography.CheckDirStructure()
 
 	if errors.Is(err, geography.ErrInvalidDirectoryStructure) {
-		return fmt.Errorf("%v, change directory to geography root directory", err)
+		return fmt.Errorf("⛔ %v, change directory to geography root directory", err)
 	} else if err != nil {
-		return err
+		return fmt.Errorf("⛔ %v", err)
 	}
 
-	worker := worker2.NewWorkerExpand()
+	if c.Bool("verbose") {
+		fmt.Println("Valid directory structure ✓, expanding project by one entity")
+	}
+
+	workerExpand := worker.NewWorkerExpand()
 	eGen := generator.NewEntityGenerator()
 	pGen := generator.NewPropertyGenerator()
-	err = worker.ExpandRandom(eGen, pGen)
+	err = workerExpand.ExpandRandom(eGen, pGen)
 
 	if errors.Is(err, generator.ErrExpand) {
-		return fmt.Errorf("%v, project cannot expand anymore", err)
+		return fmt.Errorf("⛔ %v, project cannot expand anymore", err)
 	} else if err != nil {
-		return err
+		return fmt.Errorf("⛔ %v", err)
+	}
+
+	if c.Bool("verbose") {
+		fmt.Println("Expanding has succeeded")
 	}
 
 	return nil

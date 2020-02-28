@@ -15,9 +15,13 @@ func GeographyShrink(c *cli.Context) error {
 	err := geography.CheckDirStructure()
 
 	if errors.Is(err, geography.ErrInvalidDirectoryStructure) {
-		return fmt.Errorf("%v, change directory to geography root directory", err)
+		return fmt.Errorf("⛔ %v, change directory to geography root directory", err)
 	} else if err != nil {
-		return err
+		return fmt.Errorf("⛔ %v", err)
+	}
+
+	if c.Bool("verbose") {
+		fmt.Println("Valid directory structure ✓, shrinking project by one entity")
 	}
 
 	randomEntityPicker := picker.New()
@@ -26,9 +30,13 @@ func GeographyShrink(c *cli.Context) error {
 	err = worker.ShrinkRandom(randomEntityPicker)
 
 	if errors.Is(err, picker.ErrNoAvailableEntities) {
-		return fmt.Errorf("there are no entities left for shrinking project")
+		return fmt.Errorf("⛔ there are no entities left for shrinking project")
 	} else if err != nil {
-		return err
+		return fmt.Errorf("⛔ %v", err)
+	}
+
+	if c.Bool("verbose") {
+		fmt.Println("Shrinking has succeeded")
 	}
 
 	return nil

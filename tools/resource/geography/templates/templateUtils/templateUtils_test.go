@@ -16,7 +16,7 @@ func TestNew(t *testing.T) {
 	}
 }
 
-func ExampleNew() {
+func ExampleNewTemplateVariables() {
 	e := Entity("tree")
 	p := Property("height")
 

@@ -16,9 +16,13 @@ func GeographyRename(c *cli.Context) error {
 	err := geography.CheckDirStructure()
 
 	if errors.Is(err, geography.ErrInvalidDirectoryStructure) {
-		return fmt.Errorf("%v, change directory to geography root directory", err)
+		return fmt.Errorf("⛔ %v, change directory to geography root directory", err)
 	} else if err != nil {
-		return err
+		return fmt.Errorf("⛔ %v", err)
+	}
+
+	if c.Bool("verbose") {
+		fmt.Println("Valid directory structure ✓, renaming one entity")
 	}
 
 	randomPicker := picker.New()
@@ -27,9 +31,13 @@ func GeographyRename(c *cli.Context) error {
 	err = workerRename.RenameRandom(eGen, randomPicker)
 
 	if errors.Is(err, picker.ErrNoAvailableEntities) {
-		return fmt.Errorf("there are no entities left for renaming")
+		return fmt.Errorf("⛔ there are no entities left for renaming")
 	} else if err != nil {
-		return err
+		return fmt.Errorf("⛔ %v", err)
+	}
+
+	if c.Bool("verbose") {
+		fmt.Println("Renaming has succeeded")
 	}
 
 	return nil
