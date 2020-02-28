@@ -8,6 +8,7 @@ import (
 	"generator/backend-go/tools/resource/geography/templates/templateUtils/generator"
 	"generator/backend-go/tools/resource/geography/worker"
 	"github.com/urfave/cli/v2"
+	"log"
 )
 
 //GeographyExpand command updates geography project by new entity and related to it files like controllers etc..
@@ -21,7 +22,7 @@ func GeographyExpand(c *cli.Context) error {
 	}
 
 	if c.Bool("verbose") {
-		fmt.Println("Valid directory structure ✓, expanding project by one entity")
+		log.Println("Valid directory structure ✓ expanding project by one entity")
 	}
 
 	workerExpand := worker.NewWorkerExpand()
@@ -36,7 +37,7 @@ func GeographyExpand(c *cli.Context) error {
 	}
 
 	if c.Bool("verbose") {
-		fmt.Println("Expanding has succeeded")
+		log.Println("Expanding has succeeded")
 	}
 
 	return nil

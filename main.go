@@ -13,8 +13,9 @@ func main() {
 		Usage: "CLI for maintaining geography project.",
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
-				Name:  "verbose",
-				Usage: "display verbose output",
+				Name:    "verbose",
+				Usage:   "display verbose output",
+				Aliases: []string{"v"},
 			},
 		},
 		Commands: []*cli.Command{

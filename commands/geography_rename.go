@@ -9,6 +9,7 @@ import (
 	"generator/backend-go/tools/resource/geography/templates/templateUtils/picker"
 	"generator/backend-go/tools/resource/geography/worker"
 	"github.com/urfave/cli/v2"
+	"log"
 )
 
 //GeographyRename command is responsible for renaming one random entity
@@ -22,7 +23,7 @@ func GeographyRename(c *cli.Context) error {
 	}
 
 	if c.Bool("verbose") {
-		fmt.Println("Valid directory structure ✓, renaming one entity")
+		log.Println("Valid directory structure ✓ renaming one entity")
 	}
 
 	randomPicker := picker.New()
@@ -37,7 +38,7 @@ func GeographyRename(c *cli.Context) error {
 	}
 
 	if c.Bool("verbose") {
-		fmt.Println("Renaming has succeeded")
+		log.Println("Renaming has succeeded")
 	}
 
 	return nil

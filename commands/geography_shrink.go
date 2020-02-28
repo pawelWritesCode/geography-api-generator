@@ -8,6 +8,7 @@ import (
 	"generator/backend-go/tools/resource/geography/templates/templateUtils/picker"
 	worker2 "generator/backend-go/tools/resource/geography/worker"
 	"github.com/urfave/cli/v2"
+	"log"
 )
 
 //GeographyExpand command shrinks geography project by one random entity and related to it files like controllers etc..
@@ -21,9 +22,8 @@ func GeographyShrink(c *cli.Context) error {
 	}
 
 	if c.Bool("verbose") {
-		fmt.Println("Valid directory structure ✓, shrinking project by one entity")
+		log.Println("Valid directory structure ✓ shrinking project by one entity")
 	}
-
 	randomEntityPicker := picker.New()
 
 	worker := worker2.NewWorkerDecay()
@@ -36,7 +36,7 @@ func GeographyShrink(c *cli.Context) error {
 	}
 
 	if c.Bool("verbose") {
-		fmt.Println("Shrinking has succeeded")
+		log.Println("Shrinking has succeeded")
 	}
 
 	return nil
