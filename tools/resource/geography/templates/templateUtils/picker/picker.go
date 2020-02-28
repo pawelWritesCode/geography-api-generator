@@ -1,4 +1,3 @@
-//Package picker implement method for picking project artifacts
 package picker
 
 import (

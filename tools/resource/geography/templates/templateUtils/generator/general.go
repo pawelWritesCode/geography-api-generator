@@ -1,10 +1,3 @@
-//Package generator implements generating methods.
-//
-//To create new TemplateVariables struct required for rendering template use function:
-//
-//	generator.RandomTemplateVariables
-//
-//To generate random entity
 package generator
 
 import (

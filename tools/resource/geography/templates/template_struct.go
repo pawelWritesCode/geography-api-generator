@@ -1,4 +1,3 @@
-// Package templates contains utilities for working with available templates
 package templates
 
 import (
@@ -14,8 +13,14 @@ var ErrPayload = errors.New("template playload is not set")
 
 //Template struct holds information about template
 type Template struct {
+
+	//represents resource where file should be placed
 	resource.Resource
-	Payload   *template.Template
+
+	//raw template ready to render
+	Payload *template.Template
+
+	//variables required for rendering template
 	Variables templateUtils.TemplateVariables
 }
 
