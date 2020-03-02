@@ -10,6 +10,7 @@ Run script `build.sh` from `backend-go/` dir
     ./build.sh
 ```
 CLI binary will be placed in `$GOPATH/bin/` dir, under name `geo-generator`.
+It will be also available in `./bin/` folder.
 
 ### Usage
 *prerequisites: Clone `geography` project:
