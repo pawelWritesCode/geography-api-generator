@@ -30,7 +30,7 @@ const BehatCreateTemplate = `Feature: Create {{.Entity}} record
     And the JSON node "root.name" should be equal to templated value "{{"{{"}}name{{"}}"}}"
     And the JSON node "root.{{.Property}}" should be equal to "1111"`
 
-//NewResource returns new template for resource
+//NewResource returns new template for test create
 func NewBehatCreate(variables templateUtils.TemplateVariables) Template {
 	rawTemplate, err := template.New("behat_create").Parse(BehatCreateTemplate)
 

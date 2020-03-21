@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"generator/backend-go/tools/resource/geography"
+	t "generator/backend-go/tools/resource/geography/task"
 	"generator/backend-go/tools/resource/geography/templates/templateUtils/picker"
-	worker2 "generator/backend-go/tools/resource/geography/worker"
 	"github.com/urfave/cli/v2"
 	"log"
 )
@@ -26,8 +26,8 @@ func GeographyShrink(c *cli.Context) error {
 	}
 	randomEntityPicker := picker.New()
 
-	worker := worker2.NewWorkerDecay()
-	err = worker.ShrinkRandom(randomEntityPicker)
+	task := t.New()
+	err = task.ShrinkRandom(randomEntityPicker)
 
 	if errors.Is(err, picker.ErrNoAvailableEntities) {
 		return fmt.Errorf("⛔ there are no entities left for shrinking project")
