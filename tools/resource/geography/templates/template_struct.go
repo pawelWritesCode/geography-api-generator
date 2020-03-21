@@ -2,6 +2,7 @@ package templates
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"generator/backend-go/tools/resource"
 	"generator/backend-go/tools/resource/geography/templates/templateUtils"
@@ -66,4 +67,16 @@ func (t Template) RenderAndWrite() error {
 	_, err = t.Write([]byte(renderedTemplate))
 
 	return err
+}
+
+//Execute renders and write template according to context.
+//
+//Implementation of Job interface
+func (t Template) Execute(ctx context.Context, ch1 chan error) {
+	select {
+	case <-ctx.Done():
+		return
+	default:
+		ch1 <- t.RenderAndWrite()
+	}
 }

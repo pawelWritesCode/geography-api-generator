@@ -1,6 +1,7 @@
 package resource
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -102,4 +103,16 @@ func (r Resource) Unlink() error {
 	}
 
 	return fmt.Errorf("resource is not file")
+}
+
+//Execute unlink resource according to context.
+//
+//Implements Job interface
+func (r Resource) Execute(ctx context.Context, ch1 chan error) {
+	select {
+	case <-ctx.Done():
+		return
+	default:
+		ch1 <- r.Unlink()
+	}
 }
