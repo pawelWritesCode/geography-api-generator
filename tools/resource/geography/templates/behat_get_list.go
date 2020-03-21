@@ -44,7 +44,7 @@ const BehatGetListTemplate = `Feature: Get list {{.Entity}} record
       """
     And list element with the id "{{"{{"}}{{.Entity}}Id{{"}}"}}" has field "name" with value "{{"{{"}}name{{"}}"}}"`
 
-//NewResource returns new template for resource
+//NewResource returns new template for test get list
 func NewBehatGetList(variables templateUtils.TemplateVariables) Template {
 	rawTemplate, err := template.New("behat_get_list").Parse(BehatGetListTemplate)
 

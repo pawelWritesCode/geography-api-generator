@@ -56,7 +56,7 @@ const BehatPutTemplate = `Feature: Update {{.Entity}} record
     And the JSON node "root.name" should be equal to templated value "{{"{{"}}name2{{"}}"}}"
     And the JSON node "root.{{.Property}}" should be equal to "99999"`
 
-//NewResource returns new template for resource
+//NewResource returns new template for test put
 func NewBehatPut(variables templateUtils.TemplateVariables) Template {
 	rawTemplate, err := template.New("behat_put").Parse(BehatPutTemplate)
 

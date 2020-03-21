@@ -46,7 +46,7 @@ const BehatDeleteTemplate = `Feature: Delete {{.Entity}} record
     When I send a modified "GET" request to "/api/{{.Entity}}/{{"{{"}}{{.Entity}}Id{{"}}"}}"
     Then the response status code should be 404`
 
-//NewResource returns new template for resource
+//NewResource returns new template for test delete
 func NewBehatDelete(variables templateUtils.TemplateVariables) Template {
 	rawTemplate, err := template.New("behat_delete").Parse(BehatDeleteTemplate)
 

@@ -41,7 +41,7 @@ const BehatGetIdTemplate = `Feature: Get {{.Entity}} record
     And the JSON node "root.name" should be equal to templated value "{{"{{"}}name{{"}}"}}"
     And the JSON node "root.{{.Property}}" should be equal to "4444"`
 
-//NewResource returns new template for resource
+//NewResource returns new template for test get id
 func NewBehatGetId(variables templateUtils.TemplateVariables) Template {
 	rawTemplate, err := template.New("behat_get_id").Parse(BehatGetIdTemplate)
 
