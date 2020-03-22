@@ -4,6 +4,7 @@ package commands
 import (
 	"errors"
 	"fmt"
+	"generator/backend-go/tools/resource"
 	"generator/backend-go/tools/resource/geography"
 	t "generator/backend-go/tools/resource/geography/task"
 	"generator/backend-go/tools/resource/geography/templates/templateUtils/generator"
@@ -15,9 +16,11 @@ import (
 
 //GeographyRename command is responsible for renaming one random entity
 func GeographyRename(c *cli.Context) error {
-	err := geography.CheckDirStructure()
+	allGeoDirs := geography.AllGeographyDirectories()
+	sAllGeoDirs := allGeoDirs[:]
+	err := resource.CheckDirStructure(sAllGeoDirs)
 
-	if errors.Is(err, geography.ErrInvalidDirectoryStructure) {
+	if errors.Is(err, resource.ErrInvalidDirectoryStructure) {
 		return fmt.Errorf("⛔ %v, change directory to geography root directory", err)
 	} else if err != nil {
 		return fmt.Errorf("⛔ %v", err)
@@ -28,7 +31,7 @@ func GeographyRename(c *cli.Context) error {
 	}
 
 	task := t.New()
-	err = task.RenameRandom(worker.New(), generator.NewEntityGenerator(), picker.New())
+	err = task.RenameRandomToRandom(worker.New(), generator.NewEntityGenerator(), picker.New())
 
 	if errors.Is(err, picker.ErrNoAvailableEntities) {
 		return fmt.Errorf("⛔ there are no entities left for renaming")

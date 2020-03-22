@@ -19,7 +19,7 @@
 //
 //To rename project entity use methods starting with Rename
 //
-//	func (t Task) RenameRandom(entityGenerator gen.RandomEntity, randomPicker picker.RandomEntityAndPropertyPicker) error
+//	func (t Task) RenameRandomToRandom(entityGenerator gen.RandomEntity, randomPicker picker.RandomEntityAndPropertyPicker) error
 //	func (t Task) RenameSpecificToRandom(templateVariables tUtils.TemplateVariables, entityGenerator gen.RandomEntity) error
 //	func (t Task) RenameSpecificToSpecific(templateVariables tUtils.TemplateVariables, e tUtils.Entity) error
 package task
