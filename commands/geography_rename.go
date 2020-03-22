@@ -8,6 +8,7 @@ import (
 	t "generator/backend-go/tools/resource/geography/task"
 	"generator/backend-go/tools/resource/geography/templates/templateUtils/generator"
 	"generator/backend-go/tools/resource/geography/templates/templateUtils/picker"
+	"generator/backend-go/tools/resource/geography/worker"
 	"github.com/urfave/cli/v2"
 	"log"
 )
@@ -26,10 +27,8 @@ func GeographyRename(c *cli.Context) error {
 		log.Println("Valid directory structure ✓ renaming one entity")
 	}
 
-	randomPicker := picker.New()
-	eGen := generator.NewEntityGenerator()
 	task := t.New()
-	err = task.RenameRandom(eGen, randomPicker)
+	err = task.RenameRandom(worker.New(), generator.NewEntityGenerator(), picker.New())
 
 	if errors.Is(err, picker.ErrNoAvailableEntities) {
 		return fmt.Errorf("⛔ there are no entities left for renaming")

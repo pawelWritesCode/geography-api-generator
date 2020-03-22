@@ -11,8 +11,8 @@ type Worker struct {
 	jobList []tools.Job
 }
 
-//NewWorker returns new Worker instance
-func NewWorker() *Worker {
+//New returns new Worker instance
+func New() *Worker {
 	return &Worker{jobList: []tools.Job{}}
 }
 
@@ -30,10 +30,11 @@ func (w *Worker) DeregisterJob(j tools.Job) {
 //
 //All jobs are executed concurrently. If one fails, rest of them is cancelled immediately.
 func (w *Worker) DoAll() error {
+	var err error
 	ch1 := make(chan error)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	var err error
+	defer w.clearJobList()
 
 	//Concurrently executing jobs
 	for _, job := range w.jobList {
@@ -51,6 +52,11 @@ func (w *Worker) DoAll() error {
 	}
 
 	return nil
+}
+
+//clearJobList clears pending jobs list
+func (w *Worker) clearJobList() {
+	w.jobList = []tools.Job{}
 }
 
 //removeFromJobList helps removing job from job list

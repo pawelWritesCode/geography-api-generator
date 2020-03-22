@@ -3,7 +3,6 @@ package resource
 import (
 	"context"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -40,9 +39,7 @@ func (r Resource) Write(p []byte) (n int, err error) {
 		return 0, ErrInvalidResource
 	}
 
-	err = ioutil.WriteFile(path.Clean(r.Directory+r.FileName), p, 0741)
-
-	return len(p), err
+	return len(p), ioutil.WriteFile(path.Clean(r.Directory+r.FileName), p, 0741)
 }
 
 //Exist checks if resource exists
@@ -102,12 +99,10 @@ func (r Resource) Unlink() error {
 		return os.Remove(r.Directory + r.FileName)
 	}
 
-	return fmt.Errorf("resource is not file")
+	return ErrInvalidResource
 }
 
 //Execute unlink resource according to context.
-//
-//Implements Job interface
 func (r Resource) Execute(ctx context.Context, ch1 chan error) {
 	select {
 	case <-ctx.Done():
