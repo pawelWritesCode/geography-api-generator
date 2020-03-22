@@ -70,8 +70,6 @@ func (t Template) RenderAndWrite() error {
 }
 
 //Execute renders and write template according to context.
-//
-//Implementation of Job interface
 func (t Template) Execute(ctx context.Context, ch1 chan error) {
 	select {
 	case <-ctx.Done():

@@ -7,6 +7,7 @@ import (
 	"generator/backend-go/tools/resource/geography"
 	t "generator/backend-go/tools/resource/geography/task"
 	"generator/backend-go/tools/resource/geography/templates/templateUtils/generator"
+	"generator/backend-go/tools/resource/geography/worker"
 	"github.com/urfave/cli/v2"
 	"log"
 )
@@ -26,9 +27,7 @@ func GeographyExpand(c *cli.Context) error {
 	}
 
 	task := t.New()
-	eGen := generator.NewEntityGenerator()
-	pGen := generator.NewPropertyGenerator()
-	err = task.ExpandRandom(eGen, pGen)
+	err = task.ExpandRandom(worker.New(), generator.NewEntityGenerator(), generator.NewPropertyGenerator())
 
 	if errors.Is(err, generator.ErrExpand) {
 		return fmt.Errorf("⛔ %v, project cannot expand anymore", err)

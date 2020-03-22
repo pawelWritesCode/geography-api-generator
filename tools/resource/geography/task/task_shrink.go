@@ -2,43 +2,41 @@ package task
 
 import (
 	"fmt"
+	"generator/backend-go/tools"
 	"generator/backend-go/tools/resource"
 	"generator/backend-go/tools/resource/geography"
 	"generator/backend-go/tools/resource/geography/templates/templateUtils"
 	"generator/backend-go/tools/resource/geography/templates/templateUtils/picker"
-	"generator/backend-go/tools/resource/geography/worker"
 )
 
 //ShrinkRandom remove one random available entity and related to it files from project
-func (t Task) ShrinkRandom(picker picker.RandomEntityPicker) error {
+func (t Task) ShrinkRandom(employee tools.Employee, picker picker.RandomEntityPicker) error {
 	e, err := picker.RandomEntity()
 
 	if err != nil {
 		return err
 	}
 
-	return t.ShrinkSpecific(e)
+	return t.ShrinkSpecific(employee, e)
 }
 
 //ShrinkSpecific entity and related to it files from project
-func (t Task) ShrinkSpecific(e templateUtils.Entity) error {
+func (t Task) ShrinkSpecific(employee tools.Employee, e templateUtils.Entity) error {
 	entityRes := resource.New(geography.EntityDir, e.EntityFU()+".php")
 
 	if !entityRes.Exist() {
 		return fmt.Errorf("entity %s does not exists", e)
 	}
 
-	w := worker.NewWorker()
+	employee.RegisterJob(entityRes)
+	employee.RegisterJob(resource.New(geography.RepositoryDir, e.EntityFU()+"Repository.php"))
+	employee.RegisterJob(resource.New(geography.ResourcesDir, e.EntityFU()+".orm.yml"))
+	employee.RegisterJob(resource.New(geography.ControllerDir+e.EntityFU()+"/", ""))
+	employee.RegisterJob(resource.New(geography.RestApiDir+e.EntityFU()+"/", ""))
+	employee.RegisterJob(resource.New(geography.BehatDir+string(e)+"/", ""))
+	employee.RegisterJob(resource.New(geography.DocumentationDir+"request/", string(e)+".json"))
+	employee.RegisterJob(resource.New(geography.DocumentationDir+"response/", string(e)+".json"))
+	employee.RegisterJob(resource.New(geography.DocumentationDir+"response/", string(e)+"_array.json"))
 
-	w.RegisterJob(entityRes)
-	w.RegisterJob(resource.New(geography.RepositoryDir, e.EntityFU()+"Repository.php"))
-	w.RegisterJob(resource.New(geography.ResourcesDir, e.EntityFU()+".orm.yml"))
-	w.RegisterJob(resource.New(geography.ControllerDir+e.EntityFU()+"/", ""))
-	w.RegisterJob(resource.New(geography.RestApiDir+e.EntityFU()+"/", ""))
-	w.RegisterJob(resource.New(geography.BehatDir+string(e)+"/", ""))
-	w.RegisterJob(resource.New(geography.DocumentationDir+"request/", string(e)+".json"))
-	w.RegisterJob(resource.New(geography.DocumentationDir+"response/", string(e)+".json"))
-	w.RegisterJob(resource.New(geography.DocumentationDir+"response/", string(e)+"_array.json"))
-
-	return w.DoAll()
+	return employee.DoAll()
 }

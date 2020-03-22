@@ -7,6 +7,7 @@ import (
 	"generator/backend-go/tools/resource/geography"
 	t "generator/backend-go/tools/resource/geography/task"
 	"generator/backend-go/tools/resource/geography/templates/templateUtils/picker"
+	"generator/backend-go/tools/resource/geography/worker"
 	"github.com/urfave/cli/v2"
 	"log"
 )
@@ -24,10 +25,9 @@ func GeographyShrink(c *cli.Context) error {
 	if c.Bool("verbose") {
 		log.Println("Valid directory structure ✓ shrinking project by one entity")
 	}
-	randomEntityPicker := picker.New()
 
 	task := t.New()
-	err = task.ShrinkRandom(randomEntityPicker)
+	err = task.ShrinkRandom(worker.New(), picker.New())
 
 	if errors.Is(err, picker.ErrNoAvailableEntities) {
 		return fmt.Errorf("⛔ there are no entities left for shrinking project")

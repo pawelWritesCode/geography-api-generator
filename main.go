@@ -31,11 +31,17 @@ func main() {
 				Name:   "geography:shrink",
 				Usage:  " ⇘ shrink project by one entity",
 				Action: commands.GeographyShrink,
+				Flags: []cli.Flag{
+					&cli.BoolFlag{Name: "verbose", Aliases: []string{"v"}},
+				},
 			},
 			{
 				Name:   "geography:rename",
 				Usage:  " ⇔ rename one entity and all its related files/folders",
 				Action: commands.GeographyRename,
+				Flags: []cli.Flag{
+					&cli.BoolFlag{Name: "verbose", Aliases: []string{"v"}},
+				},
 			},
 		},
 	}
