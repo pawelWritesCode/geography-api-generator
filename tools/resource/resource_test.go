@@ -26,3 +26,12 @@ func ExampleNew() {
 	//
 	//{a b}
 }
+
+//func TestResource_DirExist(t *testing.T) {
+//	dir := "aabbccddeeffgghh11223344556677ifx/dddeeefffaaabbbxx/afjl;kasjflkasjfalsf/"
+//	resource := New(dir, "")
+//
+//	if resource.DirExist() != false {
+//		t.Errorf("Directory %s should not exists", dir)
+//	}
+//}
